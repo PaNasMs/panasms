@@ -1,15 +1,15 @@
-# OstojaOS workspace
+# PaNasMs workspace
 
-Название проекта — **OstojaOS**, системный идентификатор — `ostojaos`.
-Текущий прототип: **0.2.x**; исходники сохраняются в ветках `main` без нового релизного тега. [Переименование и совместимость](docs/ostojaos-renaming.md).
+Полное название — **Pavlo's NAS Management System**, кодовое название — **PaNasMs**, системный идентификатор — `panasms`.
+Текущий прототип: **0.2.x**; исходники сохраняются в ветках `main` без нового релизного тега. [Переименование и совместимость](docs/panasms-renaming.md).
 
-Workspace отдельных репозиториев OstojaOS. Основной репозиторий хранит этот обзор, лицензию и общие инструменты; исходники компонентов публикуются отдельно.
+Workspace отдельных репозиториев PaNasMs. Основной репозиторий хранит этот обзор, лицензию и общие инструменты; исходники компонентов публикуются отдельно.
 
 | Каталог / репозиторий | Ответственность |
 | --- | --- |
-| [frontend](https://github.com/OstojaOS/frontend) | React SPA: оболочка, страницы модулей, виджеты, настройки |
-| [backend](https://github.com/OstojaOS/backend) | Go core, привилегированный агент, рабочие процессы, API и системная интеграция |
-| [docs](https://github.com/OstojaOS/docs) | Требования, архитектура, задачи, документация и история исследований |
+| [frontend](https://github.com/PaNasMs/frontend) | React SPA: оболочка, страницы модулей, виджеты, настройки |
+| [backend](https://github.com/PaNasMs/backend) | Go core, привилегированный агент, рабочие процессы, API и системная интеграция |
+| [docs](https://github.com/PaNasMs/docs) | Требования, архитектура, задачи, документация и история исследований |
 | `chassis` (локально) | Конструкция корпуса, CAD и материалы изготовления |
 
 Core и агент выпускаются из одного backend-репозитория, но работают
@@ -31,27 +31,27 @@ Core и агент выпускаются из одного backend-репози
 
 ## GitHub repositories
 
-- [OstojaOS/ostojaos](https://github.com/OstojaOS/ostojaos) — workspace overview and shared tools.
-- [OstojaOS/backend](https://github.com/OstojaOS/backend) — core, privileged agent and system integration.
-- [OstojaOS/frontend](https://github.com/OstojaOS/frontend) — React web interface.
-- [OstojaOS/docs](https://github.com/OstojaOS/docs) — project plans and documentation.
-- [OstojaOS/module-sdk](https://github.com/OstojaOS/module-sdk) — module SDK.
-- [OstojaOS/module-registry](https://github.com/OstojaOS/module-registry) — module catalog.
-- [OstojaOS/module-files](https://github.com/OstojaOS/module-files), [module-terminal](https://github.com/OstojaOS/module-terminal), [module-cloud-sync](https://github.com/OstojaOS/module-cloud-sync) — installable modules.
+- [PaNasMs/panasms](https://github.com/PaNasMs/panasms) — workspace overview and shared tools.
+- [PaNasMs/backend](https://github.com/PaNasMs/backend) — core, privileged agent and system integration.
+- [PaNasMs/frontend](https://github.com/PaNasMs/frontend) — React web interface.
+- [PaNasMs/docs](https://github.com/PaNasMs/docs) — project plans and documentation.
+- [PaNasMs/module-sdk](https://github.com/PaNasMs/module-sdk) — module SDK.
+- [PaNasMs/module-registry](https://github.com/PaNasMs/module-registry) — module catalog.
+- [PaNasMs/module-files](https://github.com/PaNasMs/module-files), [module-terminal](https://github.com/PaNasMs/module-terminal), [module-cloud-sync](https://github.com/PaNasMs/module-cloud-sync) — installable modules.
 
 Clone the components into their matching workspace directories to retain existing relative build paths:
 
 ```sh
-git clone git@github.com:OstojaOS/ostojaos.git
-cd ostojaos
-git clone git@github.com:OstojaOS/backend.git backend
-git clone git@github.com:OstojaOS/frontend.git frontend
-git clone git@github.com:OstojaOS/docs.git docs
-git clone git@github.com:OstojaOS/module-sdk.git module-sdk
-git clone git@github.com:OstojaOS/module-registry.git module-registry
-git clone git@github.com:OstojaOS/module-files.git modules/files
-git clone git@github.com:OstojaOS/module-terminal.git modules/terminal
-git clone git@github.com:OstojaOS/module-cloud-sync.git modules/cloud-sync
+git clone git@github.com:PaNasMs/panasms.git
+cd panasms
+git clone git@github.com:PaNasMs/backend.git backend
+git clone git@github.com:PaNasMs/frontend.git frontend
+git clone git@github.com:PaNasMs/docs.git docs
+git clone git@github.com:PaNasMs/module-sdk.git module-sdk
+git clone git@github.com:PaNasMs/module-registry.git module-registry
+git clone git@github.com:PaNasMs/module-files.git modules/files
+git clone git@github.com:PaNasMs/module-terminal.git modules/terminal
+git clone git@github.com:PaNasMs/module-cloud-sync.git modules/cloud-sync
 ```
 
 Local credentials, machine configuration snapshots, screenshots, downloaded vendor materials,
@@ -60,7 +60,7 @@ New core repositories have no automated builds or releases configured.
 
 ## Лицензия
 
-Оригинальный программный код OstojaOS — **PolyForm Noncommercial 1.0.0**:
+Оригинальный программный код PaNasMs — **PolyForm Noncommercial 1.0.0**:
 [полный текст](LICENSE), [область применения и уведомления](NOTICE).
 SPDX: `PolyForm-Noncommercial-1.0.0`.
 

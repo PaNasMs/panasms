@@ -8,7 +8,7 @@ import tempfile
 import zipfile
 
 parser = argparse.ArgumentParser(
-    description="Build signed OstojaOS module archives from prepared dist payloads"
+    description="Build signed PaNasMs module archives from prepared dist payloads"
 )
 parser.add_argument("--key", required=True, type=Path)
 parser.add_argument("--root", default=Path(__file__).resolve().parent, type=Path)
@@ -56,7 +56,7 @@ for mid in args.module or [p.parent.name for p in args.root.glob("*/manifest.jso
     modules[mid] = payload
 for mid in ([args.bundle_root] if args.bundle_root else modules):
     m = json.loads(modules[mid]["manifest.json"])
-    dest = output / (mid + "-" + m["version"] + "-" + m["architecture"] + ".ostojaos")
+    dest = output / (mid + "-" + m["version"] + "-" + m["architecture"] + ".panasms")
     with zipfile.ZipFile(dest, "w", zipfile.ZIP_DEFLATED) as archive:
         archive.writestr("bundle.json", json.dumps({"root": mid}))
         for included in (modules if args.bundle_root else [mid]):

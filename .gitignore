@@ -1,0 +1,14 @@
+/*
+!/.gitignore
+!/README.md
+!/LICENSE
+!/NOTICE
+!/scripts/
+/scripts/*
+!/scripts/cloud-authorize-local.sh
+!/modules/
+/modules/*
+!/modules/build-archives.py
+!/modules/LICENSE
+!/modules/NOTICE
+/codex-session

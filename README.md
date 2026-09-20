@@ -1,52 +1,49 @@
-# PaNasMs workspace
+# Pavlo's NAS Management System (PaNasMs)
 
-Полное название — **Pavlo's NAS Management System**, кодовое название — **PaNasMs**, системный идентификатор — `panasms`.
-Текущий прототип: **0.2.x**; исходники сохраняются в ветках `main` без нового релизного тега. [Переименование и совместимость](docs/panasms-renaming.md).
+PaNasMs is a Linux NAS management panel. The current 0.2.x prototype runs on
+Raspberry Pi OS ARM64 and manages existing Linux users, storage and network
+services. The system identifier used in packages, paths and services is `panasms`.
 
-Workspace отдельных репозиториев PaNasMs. Основной репозиторий хранит этот обзор, лицензию и общие инструменты; исходники компонентов публикуются отдельно.
+## Repositories
 
-| Каталог / репозиторий | Ответственность |
+This repository contains the workspace overview, licensing and shared tools.
+Components are independent Git repositories, not submodules.
+
+| Repository | Responsibility |
 | --- | --- |
-| [frontend](https://github.com/PaNasMs/frontend) | React SPA: оболочка, страницы модулей, виджеты, настройки |
-| [backend](https://github.com/PaNasMs/backend) | Go core, привилегированный агент, рабочие процессы, API и системная интеграция |
-| [docs](https://github.com/PaNasMs/docs) | Требования, архитектура, задачи, документация и история исследований |
-| `chassis` (локально) | Конструкция корпуса, CAD и материалы изготовления |
+| [Backend](https://github.com/PaNasMs/backend) | Go API core, privileged agent, Python system adapters and Debian packaging |
+| [Frontend](https://github.com/PaNasMs/frontend) | React SPA, desktop, system pages, settings and module host |
+| [Module SDK](https://github.com/PaNasMs/module-sdk) | Shared Go module server and TypeScript host contracts |
+| [Module registry](https://github.com/PaNasMs/module-registry) | Signed catalog, package signing and publication |
+| [Files](https://github.com/PaNasMs/module-files) | Installable file manager |
+| [Terminal](https://github.com/PaNasMs/module-terminal) | Installable system-user terminal |
+| [Cloud Sync](https://github.com/PaNasMs/module-cloud-sync) | Prototype Google Drive and Dropbox synchronization |
 
-Core и агент выпускаются из одного backend-репозитория, но работают
-отдельными процессами с разными полномочиями. Файловый менеджер и терминал находятся в `modules/` и выпускаются отдельными
-подписанными пакетами с собственными версиями.
+Internal plans, research notes and deployment records are maintained locally and
+are not published. There is no public `docs` repository.
 
-План: [решения](docs/custom-nas-project-plan.md),
-[задачи реализации](docs/implementation-tasks.md).
+## Current capabilities
 
-## Остальные каталоги
+- Linux user/group management, PAM login, profiles, SSH keys, permissions and home-directory relocation.
+- Disks, mdadm RAID, partitions, filesystems, mounts, SMART schedules, HDD standby and hardware-dependent cooling.
+- External NFS and SMB mounts, system services, logs, updates and metric history.
+- Ethernet and Wi-Fi management, access points and connection sharing with rollback confirmation.
+- Per-user desktop layout, wallpaper, language and application shortcuts; tasks and notifications.
+- Signed module installation from the online catalog or a local `.panasms` archive.
 
-- `scripts/`, `patches/` — исторические инструменты и патчи CasaOS/устройства.
-  Они сохранены на прежних путях для совместимости документации и не входят
-  автоматически в новую платформу. Нужные части переносить в backend
-  осознанно при реализации соответствующего адаптера.
-- `tmp/` — временные материалы, не будущий репозиторий.
-- `codex-session` — ссылка на внешнюю историю работы, не исходники продукта.
-- `.SynologyWorkingDirectory/` — служебные данные синхронизации.
+Core and agent run as separate processes with different privileges. Files,
+Terminal and Cloud Sync are separately versioned modules. English is the default
+and fallback UI language; Russian and Ukrainian are also available.
 
-## GitHub repositories
+## Workspace setup
 
-- [PaNasMs/panasms](https://github.com/PaNasMs/panasms) — workspace overview and shared tools.
-- [PaNasMs/backend](https://github.com/PaNasMs/backend) — core, privileged agent and system integration.
-- [PaNasMs/frontend](https://github.com/PaNasMs/frontend) — React web interface.
-- [PaNasMs/docs](https://github.com/PaNasMs/docs) — project plans and documentation.
-- [PaNasMs/module-sdk](https://github.com/PaNasMs/module-sdk) — module SDK.
-- [PaNasMs/module-registry](https://github.com/PaNasMs/module-registry) — module catalog.
-- [PaNasMs/module-files](https://github.com/PaNasMs/module-files), [module-terminal](https://github.com/PaNasMs/module-terminal), [module-cloud-sync](https://github.com/PaNasMs/module-cloud-sync) — installable modules.
-
-Clone the components into their matching workspace directories to retain existing relative build paths:
+Use the following layout for scripts that refer to sibling repositories:
 
 ```sh
 git clone git@github.com:PaNasMs/panasms.git
 cd panasms
 git clone git@github.com:PaNasMs/backend.git backend
 git clone git@github.com:PaNasMs/frontend.git frontend
-git clone git@github.com:PaNasMs/docs.git docs
 git clone git@github.com:PaNasMs/module-sdk.git module-sdk
 git clone git@github.com:PaNasMs/module-registry.git module-registry
 git clone git@github.com:PaNasMs/module-files.git modules/files
@@ -54,23 +51,23 @@ git clone git@github.com:PaNasMs/module-terminal.git modules/terminal
 git clone git@github.com:PaNasMs/module-cloud-sync.git modules/cloud-sync
 ```
 
-Local credentials, machine configuration snapshots, screenshots, downloaded vendor materials,
-build outputs, session notes and chassis CAD are excluded from this source backup.
-New core repositories have no automated builds or releases configured.
+Each component README describes its build and checks. Backend and frontend do not
+yet have automated release pipelines. Modules have ARM64 build workflows and
+versioned releases imported by the registry. The official catalog is available at
+[panasms.github.io/module-registry](https://panasms.github.io/module-registry/).
 
-## Лицензия
+Local credentials, machine snapshots, session notes, hardware research, CAD,
+build outputs and temporary files are excluded from this repository. The local
+workspace may also contain historical CasaOS tools; they are not part of the
+PaNasMs runtime unless explicitly incorporated into a component.
 
-Оригинальный программный код PaNasMs — **PolyForm Noncommercial 1.0.0**:
-[полный текст](LICENSE), [область применения и уведомления](NOTICE).
-SPDX: `PolyForm-Noncommercial-1.0.0`.
+## Documentation and license
 
-Это проект с публичными исходниками (source available), а не Open Source
-в смысле определения OSI. Разрешённые цели использования определяет текст
-лицензии, включая его положения об отдельных категориях организаций.
-Коммерческое использование за пределами этих разрешений требует отдельной
-лицензии правообладателей; готовая коммерческая лицензия пока не предоставляется.
+Maintain public project documentation in English. Link across repositories using
+GitHub URLs; relative links must resolve inside the repository that contains them.
+Do not publish internal documentation or machine-specific records.
 
-Условия применяются к нашему коду ядра, интерфейса и официальных модулей.
-Сторонние компоненты сохраняют свои лицензии. Исторические патчи CasaOS,
-чужие материалы, документация производителей и CAD не перелицензируются.
-При разделении каталогов на репозитории сохраняем их `LICENSE` и `NOTICE`.
+Original PaNasMs code uses [PolyForm Noncommercial 1.0.0](LICENSE); see
+[NOTICE](NOTICE) for scope and third-party exceptions. This is a source-available
+project, not an OSI-approved open-source license. Third-party components retain
+their own licenses.

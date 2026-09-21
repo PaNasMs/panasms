@@ -9,6 +9,10 @@ services. The system identifier used in packages, paths and services is `panasms
 This repository contains the workspace overview, licensing and shared tools.
 Components are independent Git repositories, not submodules.
 
+[UI/UX guidelines](documentation/ui-ux-guidelines.md) ·
+[Automated builds](documentation/builds.md) ·
+[Build runs and downloads](https://github.com/PaNasMs/panasms/actions/workflows/build.yml)
+
 | Repository | Responsibility |
 | --- | --- |
 | [Backend](https://github.com/PaNasMs/backend) | Go API core, privileged agent, Python system adapters and Debian packaging |
@@ -51,8 +55,12 @@ git clone git@github.com:PaNasMs/module-terminal.git modules/terminal
 git clone git@github.com:PaNasMs/module-cloud-sync.git modules/cloud-sync
 ```
 
-Each component README describes its build and checks. Backend and frontend do not
-yet have automated release pipelines. Modules have ARM64 build workflows and
+Each component README describes its build and checks. Core CI builds native
+ARM64 and AMD64 Debian packages after changes to the workspace, backend or
+frontend. Packages, checksums and exact source manifests are retained as workflow
+artifacts for 30 days. See [Automated builds](documentation/builds.md) for downloads,
+compatibility and the distinction between CI artifacts and stable releases.
+Modules have ARM64 build workflows and
 versioned releases imported by the registry. The official catalog is available at
 [panasms.github.io/module-registry](https://panasms.github.io/module-registry/).
 
@@ -66,6 +74,11 @@ PaNasMs runtime unless explicitly incorporated into a component.
 Maintain public project documentation in English. Link across repositories using
 GitHub URLs; relative links must resolve inside the repository that contains them.
 Do not publish internal documentation or machine-specific records.
+
+The [UI/UX guideline](documentation/ui-ux-guidelines.md) is the public design
+baseline for the core interface and modules, including accepted tab, card,
+form, folder-selection and interaction patterns. It defines an accessibility
+target, not a claim that every existing screen has passed acceptance.
 
 Original PaNasMs code uses [PolyForm Noncommercial 1.0.0](LICENSE); see
 [NOTICE](NOTICE) for scope and third-party exceptions. This is a source-available

@@ -1,0 +1,134 @@
+name: Build PaNasMs
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      backend_ref:
+        description: Backend branch, tag or commit
+        default: main
+        type: string
+      frontend_ref:
+        description: Frontend branch, tag or commit
+        default: main
+        type: string
+  workflow_call:
+    inputs:
+      build_ref:
+        description: Exact commit of the shared build tooling
+        required: true
+        type: string
+      backend_ref:
+        default: main
+        type: string
+      frontend_ref:
+        default: main
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  resolve:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      backend: ${{ steps.sources.outputs.backend }}
+      frontend: ${{ steps.sources.outputs.frontend }}
+      build: ${{ steps.sources.outputs.build }}
+      manifest: ${{ steps.sources.outputs.manifest }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: PaNasMs/panasms
+          ref: ${{ inputs.build_ref || github.sha }}
+          persist-credentials: false
+      - name: Resolve component references once for both architectures
+        id: sources
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BACKEND_REF: ${{ inputs.backend_ref || 'main' }}
+          FRONTEND_REF: ${{ inputs.frontend_ref || 'main' }}
+        run: python3 scripts/resolve-build.py
+      - name: Test artifact validation
+        run: python3 -m unittest discover -s tests -p '*_test.py'
+
+  package:
+    needs: resolve
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - architecture: arm64
+            runner: ubuntu-24.04-arm
+          - architecture: amd64
+            runner: ubuntu-24.04
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    container:
+      image: debian:trixie-slim@sha256:a99cfc517144bc59b1978475ec53b46ecabec7e43635402ee5b77cc54cd1b20a
+    env:
+      CGO_ENABLED: '1'
+      BUILD_CONTAINER: debian:trixie-slim@sha256:a99cfc517144bc59b1978475ec53b46ecabec7e43635402ee5b77cc54cd1b20a
+    steps:
+      - name: Install native build dependencies
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends ca-certificates git build-essential libpam0g-dev python3 openssh-client acl udev util-linux
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: PaNasMs/panasms
+          ref: ${{ needs.resolve.outputs.build }}
+          path: build-tools
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: PaNasMs/backend
+          ref: ${{ needs.resolve.outputs.backend }}
+          path: backend
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: PaNasMs/frontend
+          ref: ${{ needs.resolve.outputs.frontend }}
+          path: frontend
+          persist-credentials: false
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version: '1.27.1'
+          cache-dependency-path: backend/go.sum
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Test backend, PAM bindings and race safety
+        working-directory: backend
+        run: |
+          make check
+          make check-race
+      - name: Test and build frontend
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run test:unit
+          npm run build
+      - name: Build packages and verify their contents
+        env:
+          SOURCE_MANIFEST: ${{ needs.resolve.outputs.manifest }}
+        run: python3 build-tools/scripts/build-artifacts.py --backend backend --frontend frontend --output artifacts
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: panasms-debian13-${{ matrix.architecture }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/
+          retention-days: 30
+          if-no-files-found: error
+      - name: Build summary
+        env:
+          ARCHITECTURE: ${{ matrix.architecture }}
+        run: |
+          printf '### PaNasMs %s\n\n' "$ARCHITECTURE" >> "$GITHUB_STEP_SUMMARY"
+          printf 'Tests passed. Download the artifact for Debian packages, SHA256SUMS and the source manifest.\n\n' >> "$GITHUB_STEP_SUMMARY"
+          printf 'CI prerelease only; not installed on any NAS and not an automatic-update feed.\n' >> "$GITHUB_STEP_SUMMARY"

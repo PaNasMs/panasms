@@ -22,6 +22,7 @@ Components are independent Git repositories, not submodules.
 | [Project website](https://github.com/PaNasMs/panasms.github.io) | Multilingual feature presentation, screenshots and GitHub Pages publishing |
 | [Backend](https://github.com/PaNasMs/backend) | Go API core, privileged agent, Python system adapters and Debian packaging |
 | [Frontend](https://github.com/PaNasMs/frontend) | React SPA, desktop, system pages, settings and module host |
+| [System updates](https://github.com/PaNasMs/updates) | Signed stable/testing channels and verified package publication |
 | [Module SDK](https://github.com/PaNasMs/module-sdk) | Shared Go module server and TypeScript host contracts |
 | [Module registry](https://github.com/PaNasMs/module-registry) | Signed catalog, package signing and publication |
 | [Files](https://github.com/PaNasMs/module-files) | Installable file manager |
@@ -35,7 +36,8 @@ are not published. There is no public `docs` repository.
 
 - Linux user/group management, PAM login, profiles, SSH keys, permissions and home-directory relocation.
 - Disks, mdadm RAID, partitions, filesystems, mounts, SMART schedules, HDD standby and hardware-dependent cooling.
-- External NFS and SMB mounts, system services, logs, updates and metric history.
+- Local SMB/NFS shared folders, external network mounts, system services, logs and metric history.
+- Signed stable/testing updates with installation policies, progress, backups and recovery.
 - Ethernet and Wi-Fi management, access points and connection sharing with rollback confirmation.
 - Per-user desktop layout, wallpaper, language and application shortcuts; tasks and notifications.
 - Signed module installation from the online catalog or a local `.panasms` archive.
@@ -65,9 +67,17 @@ ARM64 and AMD64 Debian packages after changes to the workspace, backend or
 frontend. Packages, checksums and exact source manifests are retained as workflow
 artifacts for 30 days. See [Automated builds](documentation/builds.md) for downloads,
 compatibility and the distinction between CI artifacts and stable releases.
+Successful main-branch builds are published to the signed testing channel; stable
+releases require a version tag. See the [update lifecycle](documentation/system-updates.md)
+for publication rules and NAS installation policies.
 Modules have ARM64 build workflows and
 versioned releases imported by the registry. The official catalog is available at
 [panasms.github.io/module-registry](https://panasms.github.io/module-registry/).
+
+The website and update publisher are independent of runtime development. To work
+on them locally, optionally clone `git@github.com:PaNasMs/panasms.github.io.git`
+into `website/` and `git@github.com:PaNasMs/updates.git` into `updates/`. Website
+pushes publish the presentation without building or installing the NAS software.
 
 Local credentials, machine snapshots, session notes, hardware research, CAD,
 build outputs and temporary files are excluded from this repository. The local

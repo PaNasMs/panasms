@@ -1,6 +1,6 @@
 # Automated PaNasMs builds
 
-The first installation/update pipeline builds the current PaNasMs management
+The installation/update pipeline builds the current PaNasMs management
 system as Debian packages. It does not produce a bootable SD-card image or
 replace the underlying Linux distribution. Target base: Debian 13 (Trixie),
 including the ARM64 Raspberry Pi OS based on it. Hardware-dependent functionality
@@ -16,6 +16,9 @@ still depends on the host. An AMD64 build passing CI does not certify every PC.
   a pull request), paired with the other component's resolved `main`. Both target
   architectures use the same resolved source commits.
 - Manual runs in `panasms` can choose backend/frontend branches, tags or commits.
+- Successful main-branch builds are eligible for the signed testing channel.
+  Stable publication requires a `vMAJOR.MINOR.PATCH` tag and committed
+  `release-lock.json` in `panasms`. PR and feature-branch builds are not published.
 - Open **Actions → Build PaNasMs → successful run → Artifacts** in the repository
   that triggered the run. Root runs are listed
   [here](https://github.com/PaNasMs/panasms/actions/workflows/build.yml).
@@ -31,11 +34,12 @@ and distributed through the module registry.
 ## Versions and verification
 
 The core base version is `backend/VERSION`, and it must match frontend
-`package.json`. CI appends `~ci.<UTC timestamp>.<run ID>.<attempt>`, so repeated
-builds are distinguishable and sort **below** the corresponding stable version.
-The optional cooling package has its own base version. CI versions are not
-published to an APT repository and will not automatically replace installed
-stable packages.
+`package.json`. Testing builds append `~dev.<UTC timestamp>.<run ID>.<attempt>`,
+so repeated builds are distinguishable and sort **below** the corresponding stable
+version. Stable tags use the matching release version and pinned component commits.
+The optional cooling package is built separately and is not part of the
+core updater transaction. The NAS chooses its channel and installation policy;
+creating a build alone does not request installation on a device.
 
 The manifest records exact workspace/backend/frontend commits, requested refs,
 architecture, build run, compiler/runtime versions, Debian container digest and
@@ -49,6 +53,9 @@ dpkg-deb --info ./panasms-prototype_<version>_<architecture>.deb
 Checksums detect damaged or mismatched files; these artifacts are **not signed**
 update manifests. Do not treat them as a trusted automatic-update channel.
 The Actions upload additionally provides GitHub's artifact integrity check.
+The separate [update publisher](https://github.com/PaNasMs/updates) verifies
+eligible successful builds, retains packages in GitHub Releases and publishes
+signed APT metadata and channel manifests through GitHub Pages.
 
 ## Build and test boundaries
 
@@ -98,13 +105,18 @@ versions are unchanged unless the CI version environment variables are supplied.
 Local build orchestration can use the same artifact script with a matching source
 manifest and GitHub run metadata; the workflow is the supported CI entry point.
 
-## Next installation and update steps
+## Publication and installation
 
-Future work needs a supported-host installer, release/channel policy, signed
-update manifests and durable package hosting, compatibility checks, backups,
-state migrations, interruption recovery and tested rollback. A bootable image
-would be a separate deliverable. No automatic deployment, reboot, stable release
-or update-feed publication is enabled by this initial build pipeline.
+The signed update publisher imports eligible builds approximately every 15
+minutes. NAS settings control release channel, notification/download/automatic
+installation policy and maintenance window. The independent updater checks
+compatibility, saves configuration/database and package backups, and supports
+interruption recovery and rollback within its documented boundaries.
+
+See the [system update lifecycle](system-updates.md) for the authoritative
+release, signing, compatibility and recovery process. The GitHub publisher does
+not connect to NAS devices or hold their credentials. No automatic reboot occurs.
+A bootable operating-system image remains a separate deliverable.
 
 GitHub references: [native hosted runners](https://docs.github.com/en/actions/reference/runners/github-hosted-runners),
 [reusable workflows](https://docs.github.com/en/actions/how-tos/reuse-automations/reuse-workflows)

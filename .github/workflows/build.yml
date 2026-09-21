@@ -3,6 +3,7 @@ name: Build PaNasMs
 on:
   push:
     branches: [main]
+    tags: ['v*']
   pull_request:
   workflow_dispatch:
     inputs:
@@ -50,6 +51,9 @@ jobs:
       - name: Resolve component references once for both architectures
         id: sources
         env:
+          VERSION_TAG: ${{ github.repository == 'PaNasMs/panasms' && startsWith(github.ref, 'refs/tags/v') && github.ref_name || '' }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_RUN_ID: ${{ github.run_id }}
           GH_TOKEN: ${{ github.token }}
           BACKEND_REF: ${{ inputs.backend_ref || 'main' }}
           FRONTEND_REF: ${{ inputs.frontend_ref || 'main' }}
@@ -161,4 +165,4 @@ jobs:
         run: |
           printf '### PaNasMs %s\n\n' "$ARCHITECTURE" >> "$GITHUB_STEP_SUMMARY"
           printf 'Tests passed. Download the artifact for Debian packages, SHA256SUMS and the source manifest.\n\n' >> "$GITHUB_STEP_SUMMARY"
-          printf 'CI prerelease only; not installed on any NAS and not an automatic-update feed.\n' >> "$GITHUB_STEP_SUMMARY"
+          printf 'Successful main/tag builds are imported into the signed update channel; no NAS is updated by CI.\n' >> "$GITHUB_STEP_SUMMARY"

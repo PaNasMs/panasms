@@ -23,7 +23,7 @@ def ci_version(base, created, run, attempt):
     stamp = re.sub(r"[-:TZ]", "", created)
     if not re.fullmatch(r"\d{14}", stamp):
         raise ValueError("Expected an ISO UTC build timestamp")
-    return f"{base}~ci.{stamp}.{run}.{attempt}"
+    return f"{base}~dev.{stamp}.{run}.{attempt}"
 
 
 def verify_elf(path, arch):
@@ -81,8 +81,10 @@ def main():
     base = (backend / "VERSION").read_text().strip()
     if json.loads((frontend / "package.json").read_text())["version"] != base:
         raise ValueError("Backend and frontend base versions differ")
-    version = ci_version(base, metadata["createdAt"], os.environ["GITHUB_RUN_ID"],
-                         os.environ["GITHUB_RUN_ATTEMPT"])
+    channel = metadata["channel"]
+    if channel == "stable" and metadata["releaseVersion"] != base:
+        raise ValueError("Release tag must match backend and frontend version")
+    version = base if channel == "stable" else ci_version(base, metadata["createdAt"], os.environ["GITHUB_RUN_ID"], os.environ["GITHUB_RUN_ATTEMPT"])
     environment = dict(os.environ, PANASMS_PACKAGE_VERSION=version)
     subprocess.run(["sh", str(backend / "scripts/build-deb.sh"), str(frontend / "dist")],
                    check=True, env=environment)
@@ -92,8 +94,7 @@ def main():
     packages = [(backend / f"dist/panasms-prototype_{version}_{arch}.deb",
                  "panasms-prototype", version, arch)]
     if arch == "arm64":
-        cooling_version = ci_version("0.2.0", metadata["createdAt"], os.environ["GITHUB_RUN_ID"],
-                                     os.environ["GITHUB_RUN_ATTEMPT"])
+        cooling_version = version
         subprocess.run(["sh", str(backend / "scripts/build-cooling-deb.sh")], check=True,
                        env=dict(environment, PANASMS_COOLING_VERSION=cooling_version))
         packages.append((backend / f"dist/panasms-cooling_{cooling_version}_all.deb",
@@ -102,7 +103,7 @@ def main():
         verify_package(package, name, package_version, package_arch)
         shutil.copy2(package, destination)
     metadata.update({
-        "product": "PaNasMs", "channel": "ci", "version": version, "architecture": arch,
+        "product": "PaNasMs", "channel": channel, "version": version, "architecture": arch,
         "target": "Debian 13 / Raspberry Pi OS based on Debian 13",
         "run": f"https://github.com/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}",
         "attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]),

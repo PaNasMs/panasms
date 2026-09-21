@@ -13,7 +13,7 @@ spec.loader.exec_module(build)
 class BuildArtifactTest(unittest.TestCase):
     def test_unique_prerelease_version(self):
         first = build.ci_version("0.2.5", "2026-09-21T21:34:56Z", "123", "1")
-        self.assertEqual(first, "0.2.5~ci.20260921213456.123.1")
+        self.assertEqual(first, "0.2.5~dev.20260921213456.123.1")
         self.assertNotEqual(first, build.ci_version("0.2.5", "2026-09-21T21:34:56Z", "123", "2"))
         import subprocess
         subprocess.run(["dpkg", "--compare-versions", first, "lt", "0.2.5"], check=True)

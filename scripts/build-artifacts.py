@@ -102,7 +102,11 @@ def main():
     for package, name, package_version, package_arch in packages:
         verify_package(package, name, package_version, package_arch)
         shutil.copy2(package, destination)
+    policy = json.loads((backend / "packaging/update-policy.json").read_text())
+    if policy.get("schemaVersion") != 1 or type(policy.get("rollbackCompatible")) is not bool or type(policy.get("requiresReboot")) is not bool:
+        raise ValueError("Invalid release update policy")
     metadata.update({
+        "updatePolicy": policy,
         "product": "PaNasMs", "channel": channel, "version": version, "architecture": arch,
         "target": "Debian 13 / Raspberry Pi OS based on Debian 13",
         "run": f"https://github.com/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}",

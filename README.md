@@ -84,3 +84,6 @@ Original PaNasMs code uses [PolyForm Noncommercial 1.0.0](LICENSE); see
 [NOTICE](NOTICE) for scope and third-party exceptions. This is a source-available
 project, not an OSI-approved open-source license. Third-party components retain
 their own licenses.
+
+System update publication and NAS recovery are documented in the
+[system update lifecycle](documentation/system-updates.md).

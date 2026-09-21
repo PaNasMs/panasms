@@ -133,6 +133,12 @@ jobs:
         env:
           SOURCE_MANIFEST: ${{ needs.resolve.outputs.manifest }}
         run: python3 build-tools/scripts/build-artifacts.py --backend backend --frontend frontend --output artifacts
+      - name: Resolve runtime dependencies without preinstalled packages
+        run: |
+          apt-get update
+          for package in artifacts/*.deb; do
+            apt-get --simulate --no-install-recommends -o Dir::State::status=/dev/null install "./$package"
+          done
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: panasms-debian13-${{ matrix.architecture }}-${{ github.run_id }}-${{ github.run_attempt }}

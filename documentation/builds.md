@@ -62,7 +62,9 @@ Before publishing artifacts, each job runs Go/PAM tests, Go vet, race tests,
 Python unit tests, frontend unit tests, TypeScript checks and a production bundle.
 Package validation checks Debian metadata, all three Go ELF architectures,
 dynamic library resolution, required runtime files, shell-hook syntax, Python
-syntax and artifact checksums. A failing job does not upload its packages.
+syntax and artifact checksums. APT also simulates installation of every built
+package with an empty installed-package status database and recommendations disabled,
+checking that all mandatory dependencies can be resolved from Debian repositories. A failing job does not upload its packages.
 
 CI does not install packages on a real NAS, run destructive storage/network
 integration tests, or validate a physical fan. The existing browser smoke script
@@ -105,3 +107,12 @@ or update-feed publication is enabled by this initial build pipeline.
 GitHub references: [native hosted runners](https://docs.github.com/en/actions/reference/runners/github-hosted-runners),
 [reusable workflows](https://docs.github.com/en/actions/how-tos/reuse-automations/reuse-workflows)
 and [workflow artifacts](https://docs.github.com/en/actions/how-tos/writing-workflows/choosing-what-your-workflow-does/storing-and-sharing-data-from-a-workflow).
+
+## Installing dependencies
+
+Install a downloaded core package using `sudo apt update` followed by
+`sudo apt install ./panasms-prototype_<version>_<architecture>.deb`.
+APT downloads its mandatory runtime dependencies, including mdadm, filesystem tools,
+NetworkManager/Wi-Fi support and Samba/NFS. Do not use `dpkg -i` as a dependency
+installer. This requires accessible distribution repositories; the artifact is not
+an offline bundle. Installing the optional cooling package is a separate hardware decision.

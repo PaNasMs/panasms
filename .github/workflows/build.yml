@@ -136,9 +136,19 @@ jobs:
       - name: Resolve runtime dependencies without preinstalled packages
         run: |
           apt-get update
-          for package in artifacts/*.deb; do
+          for package in artifacts/panasms-prototype_*.deb; do
             apt-get --simulate --no-install-recommends -o Dir::State::status=/dev/null install "./$package"
           done
+      - name: Resolve Raspberry Pi cooling dependencies
+        if: matrix.architecture == 'arm64'
+        run: |
+          python3 -c "import urllib.request; urllib.request.urlretrieve('https://archive.raspberrypi.com/debian/pool/main/r/raspberrypi-archive-keyring/raspberrypi-archive-keyring_2025.1+rpt1_all.deb', '/tmp/raspi-keyring.deb')"
+          echo '2e727149d7acb8cc7f604e66d0049161039c8aa1eaf1175e54f9e69d963d60e4  /tmp/raspi-keyring.deb' | sha256sum --check
+          dpkg-deb --extract /tmp/raspi-keyring.deb /tmp/raspi-keyring
+          install -m 0644 /tmp/raspi-keyring/usr/share/keyrings/raspberrypi-archive-keyring.pgp /usr/share/keyrings/raspberrypi-ci.gpg
+          echo 'deb [signed-by=/usr/share/keyrings/raspberrypi-ci.gpg] https://archive.raspberrypi.com/debian/ trixie main' > /etc/apt/sources.list.d/raspberrypi-ci.list
+          apt-get update
+          apt-get --simulate --no-install-recommends -o Dir::State::status=/dev/null install ./artifacts/*.deb
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: panasms-debian13-${{ matrix.architecture }}-${{ github.run_id }}-${{ github.run_attempt }}

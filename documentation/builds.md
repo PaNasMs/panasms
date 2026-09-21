@@ -64,7 +64,9 @@ Package validation checks Debian metadata, all three Go ELF architectures,
 dynamic library resolution, required runtime files, shell-hook syntax, Python
 syntax and artifact checksums. APT also simulates installation of every built
 package with an empty installed-package status database and recommendations disabled,
-checking that all mandatory dependencies can be resolved from Debian repositories. A failing job does not upload its packages.
+checking that core dependencies can be resolved from Debian repositories. ARM64 also
+checks core and cooling together with the official Raspberry Pi repository and a
+checksum-pinned archive keyring; cooling requires its `raspi-utils` package. A failing job does not upload its packages.
 
 CI does not install packages on a real NAS, run destructive storage/network
 integration tests, or validate a physical fan. The existing browser smoke script

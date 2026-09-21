@@ -4,6 +4,10 @@ PaNasMs is a Linux NAS management panel. The current 0.2.x prototype runs on
 Raspberry Pi OS ARM64 and manages existing Linux users, storage and network
 services. The system identifier used in packages, paths and services is `panasms`.
 
+[Explore PaNasMs](https://panasms.github.io/) — a visual introduction to the
+features, with real English-interface screenshots and English, Russian and
+Ukrainian descriptions.
+
 ## Repositories
 
 This repository contains the workspace overview, licensing and shared tools.
@@ -15,6 +19,7 @@ Components are independent Git repositories, not submodules.
 
 | Repository | Responsibility |
 | --- | --- |
+| [Project website](https://github.com/PaNasMs/panasms.github.io) | Multilingual feature presentation, screenshots and GitHub Pages publishing |
 | [Backend](https://github.com/PaNasMs/backend) | Go API core, privileged agent, Python system adapters and Debian packaging |
 | [Frontend](https://github.com/PaNasMs/frontend) | React SPA, desktop, system pages, settings and module host |
 | [Module SDK](https://github.com/PaNasMs/module-sdk) | Shared Go module server and TypeScript host contracts |

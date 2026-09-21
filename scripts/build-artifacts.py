@@ -70,6 +70,8 @@ def main():
     backend, frontend, destination = args.backend.resolve(), args.frontend.resolve(), args.output.resolve()
     metadata = json.loads(os.environ["SOURCE_MANIFEST"])
     for name, path in (("backend", backend), ("frontend", frontend),
+                       ("files", backend.parent / "modules/files"),
+                       ("terminal", backend.parent / "modules/terminal"),
                        ("build", Path(__file__).resolve().parents[1])):
         if output("git", "-C", str(path), "rev-parse", "HEAD") != metadata["sources"][name]["commit"]:
             raise ValueError(f"Checkout does not match source manifest: {name}")

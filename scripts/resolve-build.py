@@ -27,6 +27,9 @@ def resolve(repository, ref):
 def main():
     sources = {name: resolve(name, os.environ.get(name.upper() + "_REF") or "main")
                for name in ("backend", "frontend")}
+    for name in ("files", "terminal"):
+        sources[name] = resolve("module-" + name, "main")
+        sources[name]["role"] = "test-dependency"
     sources["build"] = {
         "repository": "PaNasMs/panasms",
         "commit": subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip(),
@@ -37,7 +40,7 @@ def main():
         "sources": sources,
     }
     with Path(os.environ["GITHUB_OUTPUT"]).open("a") as output:
-        for name in ("backend", "frontend", "build"):
+        for name in sources:
             output.write(f"{name}={sources[name]['commit']}\n")
         output.write("manifest=" + json.dumps(manifest, separators=(",", ":")) + "\n")
     print(json.dumps(manifest, indent=2))

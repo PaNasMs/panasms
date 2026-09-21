@@ -37,6 +37,8 @@ jobs:
     outputs:
       backend: ${{ steps.sources.outputs.backend }}
       frontend: ${{ steps.sources.outputs.frontend }}
+      files: ${{ steps.sources.outputs.files }}
+      terminal: ${{ steps.sources.outputs.terminal }}
       build: ${{ steps.sources.outputs.build }}
       manifest: ${{ steps.sources.outputs.manifest }}
     steps:
@@ -76,7 +78,7 @@ jobs:
       - name: Install native build dependencies
         run: |
           apt-get update
-          apt-get install -y --no-install-recommends ca-certificates git build-essential libpam0g-dev python3 openssh-client acl udev util-linux
+          apt-get install -y --no-install-recommends ca-certificates git build-essential libpam0g-dev python3 python3-pil openssh-client acl udev util-linux
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: PaNasMs/panasms
@@ -94,6 +96,18 @@ jobs:
           repository: PaNasMs/frontend
           ref: ${{ needs.resolve.outputs.frontend }}
           path: frontend
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: PaNasMs/module-files
+          ref: ${{ needs.resolve.outputs.files }}
+          path: modules/files
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: PaNasMs/module-terminal
+          ref: ${{ needs.resolve.outputs.terminal }}
+          path: modules/terminal
           persist-credentials: false
       - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
         with:

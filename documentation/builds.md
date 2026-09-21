@@ -69,6 +69,11 @@ integration tests, or validate a physical fan. The existing browser smoke script
 is not part of this pipeline; it requires a separate live harness and an updated
 scenario. A green build is not hardware or full UI acceptance.
 
+Current backend file-operation tests and frontend translation tests also consume
+the Files and Terminal sources. CI resolves and checks out those repositories at
+exact commits, recorded as test dependencies in the manifest, and installs Pillow
+for thumbnail tests. These module sources are not bundled in the core package.
+
 The `panasms-cooling` package is optional and specific to the verified GPIO27
 hardware; do not install it on arbitrary machines. Experimental PWM work is kept
 on a separate backend branch and is not included in `main` builds.

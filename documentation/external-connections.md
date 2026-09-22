@@ -1,5 +1,8 @@
 # External connections
 
+For a screenshot-based walkthrough, start with
+[Set up Google sign-in for your NAS](google-sign-in-setup.md).
+
 PaNasMs owns provider application settings, external identity bindings and the
 browser authorization lifecycle. Modules must not maintain separate copies of
 NAS-wide OAuth client credentials. The first provider is Google; this release

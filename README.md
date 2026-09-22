@@ -14,6 +14,7 @@ This repository contains the workspace overview, licensing and shared tools.
 Components are independent Git repositories, not submodules.
 
 [UI/UX guidelines](documentation/ui-ux-guidelines.md) ·
+[Google sign-in setup, step by step](documentation/google-sign-in-setup.md) ·
 [Automated builds](documentation/builds.md) ·
 [Build runs and downloads](https://github.com/PaNasMs/panasms/actions/workflows/build.yml)
 

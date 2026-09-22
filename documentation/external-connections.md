@@ -103,31 +103,16 @@ DELETE calls require the normal same-origin and `X-PaNasMs-Request: 1` headers.
 | `POST /api/v1/external/google/poll` | Browser holding the flow cookie | `202 pending`, `200 linked/authenticated`, or explicit failure |
 | `POST /api/v1/external/google/cancel` | Browser holding the flow cookie | Cancel, including an in-flight exchange |
 
-## Cloud Sync handoff and extension boundary
+## Module permissions
 
-Cloud Sync refactoring is a separate work item. Its existing per-user workers and
-local authorization helper are unchanged by this core implementation. The prior
-proposal to put NAS client settings and the entire OAuth flow inside Cloud Sync
-is superseded by this shared core architecture.
+Consumer-bound Google Drive grants, encrypted token custody, refresh and a private
+Unix token broker are implemented separately from identity connections. See
+[External permissions for modules](external-grants.md) for browser/SDK contracts,
+revocation behavior, limitations and the remaining rclone adaptation.
 
-A Cloud Sync grant is **not** the same thing as an identity connection. Before
-using a linked account for Drive, extend the core with explicit consent for the
-requested scopes and a grant bound to connection ID, consumer module ID and owner.
-Keep token storage/refresh in the core and expose a narrowly authorized service
-contract through the SDK. Do not send refresh tokens/client secrets to browser
-code, grant every module access to all connected accounts, or let modules choose
-arbitrary token endpoints/scopes. No general token-export endpoint exists yet.
-
-An initial grant model should record `connectionId`, `consumer`, `scopes`, status,
-encrypted token material and token expiry. Consumer enablement/removal and account
-unlinking must stop refresh/use; already-issued access-token validity must be
-accounted for. Personal and system-owned grants need explicit separate ownership
-and permission policy, even if Cloud Sync uses one service account and one database.
-
-Google External apps in Testing receive seven-day refresh tokens when requesting
-Drive scopes. Identity-only scopes are exempt from that specific limit. Plan the
-publishing/verification and scope policy before claiming unattended long-term
-Drive synchronization works. Test consent and sync using real provider accounts.
+Cloud Sync itself still uses its old per-user workers and local authorization
+helper until its module refactor. The new grants do not silently import those
+existing module tokens or give Drive permissions to linked identities.
 
 ## Validation
 

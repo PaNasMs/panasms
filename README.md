@@ -102,3 +102,5 @@ their own licenses.
 
 System update publication and NAS recovery are documented in the
 [system update lifecycle](documentation/system-updates.md).
+
+Core developers: see [API contracts, persistence and recovery](documentation/core-lifecycle.md).

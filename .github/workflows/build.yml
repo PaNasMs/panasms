@@ -82,7 +82,7 @@ jobs:
       - name: Install native build dependencies
         run: |
           apt-get update
-          apt-get install -y --no-install-recommends ca-certificates git gnupg gpgv build-essential libpam0g-dev python3 python3-pil openssh-client acl udev util-linux
+          apt-get install -y --no-install-recommends ca-certificates git gnupg gpgv build-essential libpam0g-dev python3 python3-pil python3-yaml python3-jsonschema openssh-client acl udev util-linux
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: PaNasMs/panasms

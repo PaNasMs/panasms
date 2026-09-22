@@ -104,3 +104,7 @@ System update publication and NAS recovery are documented in the
 [system update lifecycle](documentation/system-updates.md).
 
 Core developers: see [API contracts, persistence and recovery](documentation/core-lifecycle.md).
+
+## External connections
+
+Google account linking and optional panel sign-in use NAS-specific OAuth credentials. See the [architecture, setup and Cloud Sync handoff](https://github.com/PaNasMs/panasms/blob/main/documentation/external-connections.md).

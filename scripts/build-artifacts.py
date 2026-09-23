@@ -48,7 +48,7 @@ def verify_package(package, name, version, arch):
             if hook.name in ("preinst", "postinst", "prerm", "postrm"):
                 subprocess.run(["sh", "-n", str(hook)], check=True)
         if name == "panasms-prototype":
-            for binary in ("panasms-core", "panasms-agent", "panasms-password"):
+            for binary in ("panasms-core", "panasms-agent", "panasms-password", "panasms-system-helper", "panasms-keys"):
                 verify_elf(root / "usr/lib/panasms" / binary, arch)
             for relative in ("usr/share/panasms/ui/index.html", "etc/pam.d/panasms",
                              "usr/lib/systemd/system/panasms-core.service",

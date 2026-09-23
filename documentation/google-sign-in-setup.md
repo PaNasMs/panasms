@@ -1,5 +1,9 @@
 # Set up Google sign-in for your NAS
 
+The maintained [Google integration walkthrough](https://panasms.github.io/docs/setup/google/)
+is now on the project website, including the private-network relay and optional
+Drive authorization. The original sign-in walkthrough is retained below.
+
 This guide connects Google to **PaNasMs (Pavlo's NAS Management System)**.
 You will create a Google client once, save its two credentials on your NAS,
 then link a Google account to your existing NAS user.

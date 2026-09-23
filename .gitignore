@@ -21,3 +21,9 @@ __pycache__/
 
 !/scripts/prepare-release.py
 !/release-lock.json
+
+!/AGENTS.md
+# Publish only the UI standard; other local docs remain private.
+!/docs/
+/docs/*
+!/docs/ui-design-guidelines.md

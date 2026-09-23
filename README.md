@@ -13,7 +13,7 @@ Ukrainian descriptions.
 This repository contains the workspace overview, licensing and shared tools.
 Components are independent Git repositories, not submodules.
 
-[UI/UX guidelines](documentation/ui-ux-guidelines.md) ·
+[Interface design standard](docs/ui-design-guidelines.md) ·
 [Google sign-in setup, step by step](documentation/google-sign-in-setup.md) ·
 [Automated builds](documentation/builds.md) ·
 [Build runs and downloads](https://github.com/PaNasMs/panasms/actions/workflows/build.yml)
@@ -91,10 +91,12 @@ Maintain public project documentation in English. Link across repositories using
 GitHub URLs; relative links must resolve inside the repository that contains them.
 Do not publish internal documentation or machine-specific records.
 
-The [UI/UX guideline](documentation/ui-ux-guidelines.md) is the public design
-baseline for the core interface and modules, including accepted tab, card,
-form, folder-selection and interaction patterns. It defines an accessibility
-target, not a claim that every existing screen has passed acceptance.
+The [interface design standard](docs/ui-design-guidelines.md) is the single public
+design baseline for the core and modules. It covers layout, visual tokens, tabs,
+cards, forms, dialogs, notifications, background work and acceptance checks.
+[Project instructions](AGENTS.md) require it for all interface work. The standard
+defines an accessibility target, not a claim that every existing screen has passed
+acceptance.
 
 Original PaNasMs code uses [PolyForm Noncommercial 1.0.0](LICENSE); see
 [NOTICE](NOTICE) for scope and third-party exceptions. This is a source-available

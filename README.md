@@ -28,6 +28,7 @@ Components are independent Git repositories, not submodules.
 | [Module registry](https://github.com/PaNasMs/module-registry) | Signed catalog, package signing and publication |
 | [Files](https://github.com/PaNasMs/module-files) | Installable file manager |
 | [Terminal](https://github.com/PaNasMs/module-terminal) | Installable system-user terminal |
+| [Containers and applications](https://github.com/PaNasMs/module-containers) | Preview Docker management, shared networks and storage |
 | [Cloud Sync](https://github.com/PaNasMs/module-cloud-sync) | Prototype Google Drive and Dropbox synchronization |
 
 Internal plans, research notes and deployment records are maintained locally and
@@ -61,6 +62,7 @@ git clone git@github.com:PaNasMs/module-registry.git module-registry
 git clone git@github.com:PaNasMs/module-files.git modules/files
 git clone git@github.com:PaNasMs/module-terminal.git modules/terminal
 git clone git@github.com:PaNasMs/module-cloud-sync.git modules/cloud-sync
+git clone git@github.com:PaNasMs/module-containers.git modules/containers
 ```
 
 Each component README describes its build and checks. Core CI builds native

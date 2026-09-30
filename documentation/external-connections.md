@@ -5,8 +5,9 @@ For a screenshot-based walkthrough, start with
 
 PaNasMs owns provider application settings, external identity bindings and the
 browser authorization lifecycle. Modules must not maintain separate copies of
-NAS-wide OAuth client credentials. The first provider is Google; this release
-implements account linking and panel sign-in, not Google Drive synchronization.
+NAS-wide OAuth client credentials. Google and GitHub support account linking and
+panel sign-in; Dropbox supports account linking. File/repository permissions are
+separate capabilities, not implied by an identity connection.
 
 ## Administration and user workflow
 
@@ -30,11 +31,59 @@ that tab, the dialog includes an explicit link. The original panel polls for the
 result. A Google account can be linked to only one Linux identity on this NAS;
 multiple distinct Google accounts can be linked to the same Linux user.
 
-The login page shows **Sign in with Google** only while the provider is enabled.
+The login page shows **Sign in with Google** and **Sign in with GitHub** only while the respective provider is enabled. Dropbox is available for account linking only.
 Unlinked accounts cannot create Linux users or inherit privileges by matching
 email addresses. Local password login remains available, including when Google
 or the internet is unavailable. Unlinking requires the Linux password and revokes
 all panel sessions belonging to that user.
+
+## Provider capabilities and setup
+
+| Provider | Account linking | Panel sign-in | Identity scope / stable identifier |
+| --- | --- | --- | --- |
+| Google | Multiple accounts per Linux user | Yes | `openid email profile` / verified OIDC `sub` |
+| GitHub | Multiple accounts per Linux user | Yes | `read:user` / numeric account `id` |
+| Dropbox | Multiple accounts per Linux user | No | `account_info.read` / `account_id` |
+
+All providers use the existing callback relay:
+`https://panasms-oauth-gateway.panasms.workers.dev/callback`.
+A NAS does not need an inbound public address. The relay never receives application
+secrets or access tokens. Its existing callback and automatic tab closing work
+without a provider-specific deployment.
+
+For GitHub:
+
+1. Open [Developer settings → OAuth Apps](https://github.com/settings/developers)
+   and register an OAuth App for this NAS.
+2. Set **Authorization callback URL** to the exact relay URL above.
+3. Generate a client secret. Enter **Client ID** and **Client secret** in
+   **Settings → External connections → GitHub**, enable the provider, and save.
+4. Sign in to PaNasMs with the Linux password, then link the account in
+   **My profile → Connections**. After linking, GitHub can be used for panel login.
+
+For Dropbox:
+
+1. Open the [App Console](https://www.dropbox.com/developers/apps) and create a
+   scoped app. Enable the `account_info.read` permission.
+2. Add the exact relay URL above to the app's OAuth redirect URIs. Ensure that
+   the intended Dropbox accounts are allowed to authorize the app.
+3. Enter **App key** in the NAS **Client ID** field and **App secret** in
+   **Client secret**, enable Dropbox, and save.
+4. Link each desired account from **My profile → Connections**.
+
+Linking always requires the current Linux password. GitHub names and email
+addresses are display metadata, never login matching keys; a private or missing
+GitHub email does not prevent linking. Dropbox linking requires a verified email.
+Client secrets are encrypted separately per provider. Pending flows are bound to
+the provider as well as the browser/session: polling or cancelling through another
+provider's endpoint cannot complete or destroy the original flow. Changing a
+provider's credentials invalidates only its own pending flows.
+
+GitHub and Dropbox identity access tokens are used only to retrieve the account
+identity and are not stored. Linking does not grant file/repository/SSH-key access.
+Future module capabilities require separate explicit consent and token contracts.
+There is no new database migration; existing provider-keyed tables support these
+connections. New providers are disabled until an administrator configures them.
 
 ## Ownership and authentication
 
@@ -54,7 +103,7 @@ Google sign-in does not change Linux/SMB passwords or grant access to Drive/Gmai
 ## Relay and browser binding
 
 The fixed HTTPS relay receives `code` and opaque `state`, never the client secret
-or resulting tokens. The NAS exchanges the code directly with Google. The relay
+or resulting tokens. The NAS exchanges the code directly with the selected provider. The relay
 is an existing separate project; its code is not shipped in the core package.
 
 Each attempt has an independent cryptographically random state, nonce, PKCE
@@ -96,12 +145,12 @@ DELETE calls require the normal same-origin and `X-PaNasMs-Request: 1` headers.
 | Endpoint | Consumer | Purpose |
 | --- | --- | --- |
 | `GET /api/v1/external/providers` | Public login screen | Enabled provider flags |
-| `GET/PUT /api/v1/external/settings/google` | NAS administrator | Client settings; secret is write-only |
+| `GET/PUT /api/v1/external/settings/{provider}` | NAS administrator | Client settings; secret is write-only |
 | `GET /api/v1/external/connections` | Signed-in user | Owned identity connections |
 | `DELETE /api/v1/external/connections` | Signed-in user + Linux password | Unlink and revoke panel sessions |
-| `POST /api/v1/external/google/start` | Login screen or signed-in user | Start `login` or password-confirmed `link` |
-| `POST /api/v1/external/google/poll` | Browser holding the flow cookie | `202 pending`, `200 linked/authenticated`, or explicit failure |
-| `POST /api/v1/external/google/cancel` | Browser holding the flow cookie | Cancel, including an in-flight exchange |
+| `POST /api/v1/external/{provider}/start` | Login screen or signed-in user | Start `login` or password-confirmed `link` |
+| `POST /api/v1/external/{provider}/poll` | Browser holding the flow cookie | `202 pending`, `200 linked/authenticated`, or explicit failure |
+| `POST /api/v1/external/{provider}/cancel` | Browser holding the flow cookie | Cancel, including an in-flight exchange |
 
 ## Module permissions
 
@@ -110,15 +159,15 @@ Unix token broker are implemented separately from identity connections. See
 [External permissions for modules](external-grants.md) for browser/SDK contracts,
 revocation behavior, limitations and the remaining rclone adaptation.
 
-Cloud Sync itself still uses its old per-user workers and local authorization
-helper until its module refactor. The new grants do not silently import those
-existing module tokens or give Drive permissions to linked identities.
+Cloud Sync uses per-user Go workers and the core grant broker. Linking an identity
+does not silently create a Drive grant or expose tokens to modules. Dropbox file
+permissions and GitHub repository permissions are not implemented by this change.
 
 ## Validation
 
 Regression tests exercise encrypted storage/tampering, missing keys, account
 recreation, cross-user isolation, unlink session revocation, PKCE/scopes, signed
-OIDC claims, replay, cancellation during exchange, credential changes, polling
+OIDC claims, GitHub/Dropbox API identities, provider isolation, multiple account linking, replay, cancellation during exchange, credential changes, polling
 failures and blocked/recreated Linux accounts. These use local provider fixtures;
 passing them is not a claim of live Google consent acceptance for a user's client.
 

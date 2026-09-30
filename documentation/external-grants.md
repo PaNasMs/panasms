@@ -1,15 +1,16 @@
 # External permissions for modules
 
 The core now separates external **identity connections** from **consumer-bound
-permissions (grants)**. An identity permits Google panel login. A grant permits a
+permissions (grants)**. An identity supports account linking (Google, GitHub, Dropbox) and optionally panel login (Google and GitHub). A grant permits a
 specific module to use a reviewed provider capability while its owner is offline.
 
-The initial provider is Google. Registered consumers/capabilities are:
+Registered consumers/capabilities are:
 
-| Consumer | Capability | Google scope |
+| Consumer | Capability | Provider scope |
 | --- | --- | --- |
 | `cloud-sync` | `google-drive` | `https://www.googleapis.com/auth/drive` |
 | `cloud-sync` | `google-drive-readonly` | `https://www.googleapis.com/auth/drive.readonly` |
+| `cloud-sync` | `dropbox-files` | `account_info.read files.metadata.read files.content.read files.content.write` |
 
 Full Drive access is needed to synchronize arbitrary existing files/folders,
 including edits and deletions. Read-only access is available for download-only
@@ -201,3 +202,20 @@ revocation and account epoch changes. Google responses use signed local fixtures
 Existing real identity login was tested earlier; **real Drive consent and a real
 Drive transfer are not yet verified**. The owner must select the account and
 approve the new Google access when the Cloud Sync UI is ready.
+
+## Dropbox file access (core 0.2.8+)
+
+Cloud Sync may request the reviewed `dropbox-files` capability through
+`/api/v1/external/dropbox/start`. It requires `account_info.read`,
+`files.metadata.read`, `files.content.read`, and `files.content.write`, with
+offline access. Enable these scopes in the Dropbox App Console first. Identity
+linking continues to request only `account_info.read` and does not grant files.
+
+Use `ProviderConnect` from `@panasms/external`, with `providerId="dropbox"` and
+`grant={{connectionId, consumer: 'cloud-sync', capability: 'dropbox-files'}}`.
+The core checks the returned Dropbox account ID against the linked identity and
+all required scopes before storing encrypted tokens. Refresh uses Dropbox's
+token endpoint; module owners, installations, revocation and client revisions
+are enforced through the same private broker. Modules never receive refresh
+tokens or client secrets. Permissions cover the account, not just the chosen
+sync folder.

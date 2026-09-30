@@ -15,6 +15,18 @@ Each severity can select any combination of email, Telegram and browser push. Th
 
 Messages use the recipient's current English, Russian or Ukrainian interface language, with English fallback. Administrators receive system events; other users receive their own task events. Account identity and event visibility are checked again before sending.
 
+A task message names the task, its outcome (failed, interrupted or cancelled), the object it worked on and the reason reported by the operation, for example:
+
+```text
+PaNasMs · Error
+
+Task “Copy” failed.
+Object: /srv/md127/home/alice/photos
+Reason: Command rsync exited with code 23. Check the object's state and system journal.
+```
+
+Task names and known server messages reuse the web interface translations, which the frontend build writes to `notification-catalog.json` among the UI assets. Messages from installed modules and unknown errors keep their original text. Cloud objects are shown by path without the internal grant ID. Object paths and error text leave the NAS through the chosen channel (Telegram, email or Web Push provider).
+
 Administrators can send a test email directly from the SMTP settings to an explicit
 recipient. Save and enable SMTP first. This test does not require personal delivery
 to be enabled; it reports SMTP acceptance or a delivery error immediately. Acceptance

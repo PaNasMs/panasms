@@ -57,12 +57,14 @@ The current user can manage only their own connections and grants.
   "purpose": "grant",
   "connectionId": "<selected-connection-id>",
   "consumer": "cloud-sync",
-  "capability": "google-drive",
-  "password": "<current-NAS-password>"
+  "capability": "google-drive"
 }
 ```
 
-POST this to `/api/v1/external/google/start`. It returns `url` and `expiresIn`.
+POST this to `/api/v1/external/google/start`. The NAS session authorizes the request;
+no password is required for a module grant. When a matching account authorization
+already exists, it returns `status: granted` and `grantId` immediately. Otherwise
+it returns `url` and `expiresIn` for the missing permission.
 Open the URL in a separate tab. The request uses offline consent, PKCE, nonce and
 a subject login hint. Core verifies the returned Google subject matches the
 selected identity; the hint alone is not trusted.
@@ -98,7 +100,7 @@ import { GoogleConnect } from '@panasms/external'
 />
 ```
 
-The component handles password proof, explicit permission description, consent
+The component handles explicit permission description, account-authorization reuse, consent
 tab, polling, cancellation and localized errors. Mount it with a stable selected
 connection and callback while a flow is active. Do not implement a second copy
 of the core client-secret form or exchange Google codes in the module.
@@ -219,3 +221,20 @@ token endpoint; module owners, installations, revocation and client revisions
 are enforced through the same private broker. Modules never receive refresh
 tokens or client secrets. Permissions cover the account, not just the chosen
 sync folder.
+
+## Shared account authorization (core 0.2.9)
+
+Google/Dropbox linking can include `fileAccess: true`, before any module is installed.
+Provider authorization is stored encrypted in the core, separately from consumer
+permissions. Later modules use the same `purpose: grant` contract, without a password:
+matching active account authorization completes immediately; a missing capability
+starts provider consent. Unknown or unreviewed capabilities are rejected. Existing
+module installations and consumer isolation are checked on every token request.
+
+Reuse currently requires an exact reviewed scope set. A broader write token is not
+silently handed to a read-only consumer. Reusing a grant preserves its ID; a new
+provider authorization retains the existing replacement-ID behavior above. Token
+refresh/rotation is centralized per account and scope; modules receive only access
+tokens through the private broker. Provider revocation invalidates shared credentials,
+while revoking a single module grant leaves the account authorization available for
+explicit grants to other modules. Existing legacy grants migrate without relinking.

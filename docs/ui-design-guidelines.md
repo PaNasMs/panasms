@@ -710,8 +710,14 @@ its contents. Keep Up and breadcrumbs available, one Trash entry, and consistent
 remote-folder/RAID identities. Context menus mirror toolbar actions; they are not
 the only way to reach a feature. Support keyboard invocation of the context menu.
 
-File dragging offers a clear move/copy result and handles conflicts without silent
-overwrite. Upload from the computer has a distinct drop target. Lazy thumbnails
+An internal file drop opens a compact menu: Copy or Move, each with Skip, Rename
+or Replace for file-name conflicts. No operation starts until a choice is made;
+Escape or a click outside cancels the drop. Matching directories merge recursively;
+the selected file-conflict policy applies inside them and unrelated destination
+items remain untouched. File/directory type conflicts must never silently remove a
+directory tree. Toolbar actions remain an alternative to dragging.
+
+Upload from the computer has a distinct drop target. Lazy thumbnails
 load only for visible/near-visible tiles; list view uses type icons. Failed
 thumbnails fall back to icons without disturbing the layout.
 

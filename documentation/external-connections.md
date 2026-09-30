@@ -26,7 +26,7 @@ Disabling Google prevents new linking and Google sign-in; existing panel session
 keep their normal expiry and can be revoked through the session manager.
 
 A signed-in user opens **My profile → Connections**, confirms their current
-Linux password, and authorizes Google in a separate tab. If the browser blocks
+NAS password, and authorizes Google in a separate tab. If the browser blocks
 that tab, the dialog includes an explicit link. The original panel polls for the
 result. A Google account can be linked to only one Linux identity on this NAS;
 multiple distinct Google accounts can be linked to the same Linux user.
@@ -79,11 +79,13 @@ the provider as well as the browser/session: polling or cancelling through anoth
 provider's endpoint cannot complete or destroy the original flow. Changing a
 provider's credentials invalidates only its own pending flows.
 
-GitHub and Dropbox identity access tokens are used only to retrieve the account
-identity and are not stored. Linking does not grant file/repository/SSH-key access.
-Future module capabilities require separate explicit consent and token contracts.
-There is no new database migration; existing provider-keyed tables support these
-connections. New providers are disabled until an administrator configures them.
+Identity-only linking does not store file access tokens. For Google and Dropbox,
+the linking dialog offers file access in the same authorization flow. The core
+stores that authorization separately from module permissions. A module installed
+later can receive a local grant without another provider redirect if matching
+permissions are already available. Missing capabilities require new provider
+consent; installation never silently grants access. GitHub repository access is
+not included. New providers remain disabled until configured.
 
 ## Ownership and authentication
 
@@ -148,7 +150,7 @@ DELETE calls require the normal same-origin and `X-PaNasMs-Request: 1` headers.
 | `GET/PUT /api/v1/external/settings/{provider}` | NAS administrator | Client settings; secret is write-only |
 | `GET /api/v1/external/connections` | Signed-in user | Owned identity connections |
 | `DELETE /api/v1/external/connections` | Signed-in user + Linux password | Unlink and revoke panel sessions |
-| `POST /api/v1/external/{provider}/start` | Login screen or signed-in user | Start `login` or password-confirmed `link` |
+| `POST /api/v1/external/{provider}/start` | Login screen or signed-in user | Start `login`, password-confirmed `link` (optional `fileAccess`), or session-authorized `grant` |
 | `POST /api/v1/external/{provider}/poll` | Browser holding the flow cookie | `202 pending`, `200 linked/authenticated`, or explicit failure |
 | `POST /api/v1/external/{provider}/cancel` | Browser holding the flow cookie | Cancel, including an in-flight exchange |
 
@@ -159,9 +161,14 @@ Unix token broker are implemented separately from identity connections. See
 [External permissions for modules](external-grants.md) for browser/SDK contracts,
 revocation behavior, limitations and the remaining rclone adaptation.
 
-Cloud Sync uses per-user Go workers and the core grant broker. Linking an identity
-does not silently create a Drive grant or expose tokens to modules. Dropbox file
-permissions and GitHub repository permissions are not implemented by this change.
+Cloud Sync and Files use per-user Go workers and the core grant broker for Google
+Drive and Dropbox. The `external-account-authorizations` migration keeps encrypted
+provider authorization at account level, independently of module installation.
+Existing per-module tokens migrate lazily when reused or refreshed. Consumer grants
+still enforce owner, capability, installation, provider configuration and account
+epoch. A grant request does not require the NAS password; identity linking and
+unlinking retain password confirmation. Revoking one module grant does not grant
+other modules access or revoke their independent grants.
 
 ## Validation
 

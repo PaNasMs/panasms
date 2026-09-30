@@ -458,6 +458,11 @@ its label and state, not at the opposite edge of a large card. While applying,
 prevent repeated submissions and distinguish the request from confirmed state.
 Failures restore the observed value and explain the result.
 
+Settings forms use a primary button with a visible Apply/Save text label; an
+icon-only checkmark must not replace this action. Use the shared primary style
+consistently across core and module settings. Task-specific actions such as moving
+home directories retain a descriptive visible verb.
+
 Forms with several related changes have one Apply/Save action and an explicit
 unsaved state. Preserve edits during background refresh; if server values change,
 offer review/reload rather than silently overwriting input. Warn only when leaving

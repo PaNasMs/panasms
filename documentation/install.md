@@ -74,7 +74,10 @@ rather than claiming an automatic rollback of a fresh OS installation.
 For removal, preview the plan with `sudo panasms-uninstall --plan`, then run
 `sudo panasms-uninstall --remove` (keeps panel configuration and databases for a
 later reinstall) or `--purge` (also removes them, the module registry and the
-service account). Both stop and disable the panel and module services, unpublish
+service account). The tool is part of the package, so after `--remove` a later
+purge is `sudo apt-get purge panasms-prototype`; it keeps the locked service
+account, which `deluser --system panasms` removes once nothing is owned by it.
+Both modes stop and disable the panel and module services, unpublish
 the shared folders the panel created (files remain) and keep Linux users, RAID,
 filesystems, mounts and Docker data. The storage and sharing tools installed as
 dependencies (mdadm, Samba, NFS, SMART and filesystem utilities) are marked as

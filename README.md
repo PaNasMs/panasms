@@ -74,8 +74,9 @@ compatibility and the distinction between CI artifacts and stable releases.
 Successful main-branch builds are published to the signed testing channel; stable
 releases require a version tag. See the [update lifecycle](documentation/system-updates.md)
 for publication rules and NAS installation policies.
-Modules have ARM64 build workflows and
-versioned releases imported by the registry. The official catalog is available at
+Modules have native ARM64 and AMD64 build workflows and versioned releases
+imported by the registry. The module manager selects the package matching the host
+architecture and verifies its signature before installation. The official catalog is available at
 [panasms.github.io/module-registry](https://panasms.github.io/module-registry/).
 
 The website and update publisher are independent of runtime development. To work

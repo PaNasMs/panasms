@@ -24,7 +24,8 @@ for mid in args.module or [p.parent.name for p in args.root.glob("*/manifest.jso
     m = json.loads((folder / "manifest.json").read_text())
     payload = {
         p.relative_to(folder / "dist").as_posix(): p.read_bytes()
-        for p in (folder / "dist").rglob("*")
+        for subtree in ("bin", "ui")
+        for p in (folder / "dist" / subtree).rglob("*")
         if p.is_file()
     }
     for filename in ("LICENSE", "NOTICE"):

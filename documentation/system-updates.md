@@ -31,3 +31,27 @@ System update progress appears in Tasks and the application bar. Available relea
 ## Removal
 
 Package removal refuses to interrupt an active transaction. Removal disables update scheduling and recovery units. Purge removes the updater's own journal, downloads and rollback copies; user storage and the independent cooling package are retained.
+
+## Exclusive maintenance (0.2.10 and later)
+
+The core API, agent jobs and maintenance-aware module operations hold shared locks
+on `/run/lock/panasms-maintenance.lock`. The independent update worker holds the
+exclusive lock from the final preflight through backup, installation and health
+verification/rollback. New requests cannot enter while it owns the lock. Passive
+core event subscriptions and the health endpoint remain exempt.
+
+Running modules must advertise `maintenanceVersion: 1` and report no active work.
+Older modules must be updated or explicitly stopped first; an idle snapshot alone
+is not sufficient. Cloud Sync background synchronization and Containers background
+operations participate for their entire execution. An orderly agent stop cancels
+queued work and waits for active mutations, with a 30-minute systemd stop limit.
+
+Manual package replacement must use `sudo panasms-maintenance apt-get install
+/path/to/package.deb`; direct upgrades are rejected by the package scripts. This
+wrapper is a maintenance guard, not a backup or rollback engine. Prefer the panel
+updater. Do not set internal transaction/maintenance environment variables manually.
+
+The first migration from an older version needs a controlled maintenance window:
+finish tasks, close terminals, stop module services and back up state before
+bootstrapping the new guard. Older running code does not acquire the new lock.
+This compatibility limitation cannot be fixed retroactively by the new package.

@@ -13,6 +13,7 @@ Ukrainian descriptions.
 This repository contains the workspace overview, licensing and shared tools.
 Components are independent Git repositories, not submodules.
 
+[Installation in one command](documentation/install.md) ·
 [Interface design standard](docs/ui-design-guidelines.md) ·
 [Google sign-in setup, step by step](https://panasms.github.io/docs/setup/google/) ·
 [Automated builds](documentation/builds.md) ·

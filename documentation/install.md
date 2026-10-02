@@ -74,3 +74,5 @@ rather than claiming an automatic rollback of a fresh OS installation.
 For removal, preview the plan with `sudo panasms-uninstall --plan`.
 
 Ubuntu 24.04 AMD64 requires PaNasMs 0.2.13 or newer. A cloud image may have only SSH-key authentication: set a password for your existing sudo user with `sudo passwd "$USER"` before signing in to the panel. SSH password authentication can remain disabled. The installer waits up to 60 seconds for the HTTP listener after starting services.
+
+Clean-install acceptance (2026-10-02): the published testing command completed on Debian 13 and Ubuntu 24.04 LTS AMD64 VMs in Proxmox. Linux administrator authentication, core APIs, package dependencies, database integrity and restart were checked. Hardware and optional-module acceptance remain separate.

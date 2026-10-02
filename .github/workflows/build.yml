@@ -69,15 +69,17 @@ jobs:
         include:
           - architecture: arm64
             runner: ubuntu-24.04-arm
+            image: debian:trixie-slim@sha256:a99cfc517144bc59b1978475ec53b46ecabec7e43635402ee5b77cc54cd1b20a
           - architecture: amd64
             runner: ubuntu-24.04
+            image: ubuntu:24.04@sha256:a853f94d226358a79c740cfc7bce0c289748f3fe3488d921d038ccd752c61b60
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 30
     container:
-      image: debian:trixie-slim@sha256:a99cfc517144bc59b1978475ec53b46ecabec7e43635402ee5b77cc54cd1b20a
+      image: ${{ matrix.image }}
     env:
       CGO_ENABLED: '1'
-      BUILD_CONTAINER: debian:trixie-slim@sha256:a99cfc517144bc59b1978475ec53b46ecabec7e43635402ee5b77cc54cd1b20a
+      BUILD_CONTAINER: ${{ matrix.image }}
     steps:
       - name: Install native build dependencies
         run: |

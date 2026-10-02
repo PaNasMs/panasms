@@ -3,7 +3,7 @@
 The installation/update pipeline builds the current PaNasMs management
 system as Debian packages. It does not produce a bootable SD-card image or
 replace the underlying Linux distribution. Target base: Debian 13 (Trixie),
-including the ARM64 Raspberry Pi OS based on it. Hardware-dependent functionality
+including the ARM64 Raspberry Pi OS based on it; AMD64 also targets Ubuntu 24.04 LTS. Hardware-dependent functionality
 still depends on the host. An AMD64 build passing CI does not certify every PC.
 
 ## Triggers and downloads
@@ -130,3 +130,5 @@ APT downloads its mandatory runtime dependencies, including mdadm, filesystem to
 NetworkManager/Wi-Fi support and Samba/NFS. Do not use `dpkg -i` as a dependency
 installer. This requires accessible distribution repositories; the artifact is not
 an offline bundle. Installing the optional cooling package is a separate hardware decision.
+
+AMD64 builds use a pinned Ubuntu 24.04 container to keep the native PAM/glibc baseline compatible with both Ubuntu 24.04 and Debian 13. ARM64 builds retain Debian 13. Runtime shared-library version dependencies are derived with `dpkg-shlibdeps`; artifact names retain the historical `panasms-debian13-` prefix. Build manifests identify the actual container and target distributions.

@@ -1,6 +1,6 @@
 # Install PaNasMs
 
-Start with **Debian 13 or 64-bit Raspberry Pi OS based on Debian 13**, a working
+Start with **Debian 13 / Raspberry Pi OS 13 (ARM64 or AMD64), or Ubuntu 24.04 LTS (AMD64)**, a working
 internet connection and an existing Linux user with administrator (`sudo`) rights.
 PaNasMs is an application installed on this OS, not an SD-card image. ARM64 is the
 hardware-tested target; AMD64 packages are experimental.
@@ -72,3 +72,5 @@ configuration may remain if APT or startup fails; the installer reports failure
 rather than claiming an automatic rollback of a fresh OS installation.
 
 For removal, preview the plan with `sudo panasms-uninstall --plan`.
+
+Ubuntu 24.04 AMD64 requires PaNasMs 0.2.13 or newer. A cloud image may have only SSH-key authentication: set a password for your existing sudo user with `sudo passwd "$USER"` before signing in to the panel. SSH password authentication can remain disabled. The installer waits up to 60 seconds for the HTTP listener after starting services.

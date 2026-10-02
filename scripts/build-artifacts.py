@@ -108,7 +108,7 @@ def main():
     metadata.update({
         "updatePolicy": policy,
         "product": "PaNasMs", "channel": channel, "version": version, "architecture": arch,
-        "target": "Debian 13 / Raspberry Pi OS based on Debian 13",
+        "target": "Debian 13 / Ubuntu 24.04 LTS" if arch == "amd64" else "Debian 13 / Raspberry Pi OS based on Debian 13",
         "run": f"https://github.com/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}",
         "attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]),
         "toolchain": {"go": output("go", "version"), "node": output("node", "--version"),

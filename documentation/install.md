@@ -73,6 +73,29 @@ rather than claiming an automatic rollback of a fresh OS installation.
 
 For removal, preview the plan with `sudo panasms-uninstall --plan`.
 
+### Recovering a failed package configuration
+
+If an update leaves the panel unavailable and `dpkg --audit` reports
+`panasms-prototype` as unconfigured, preserve `/var/lib/panasms-updates/backups`.
+Do not delete the service account or edit the update database to hide the error.
+
+Download a corrected package for the same architecture from the
+[official signed update releases](https://github.com/PaNasMs/updates/releases).
+Verify it against the signed channel catalog before installing. With the panel
+and modules stopped by the failed update, use the packaged maintenance helper:
+
+```sh
+sudo panasms-maintenance apt-get install ./panasms-prototype_<version>_<architecture>.deb
+sudo panasms-configure
+```
+
+The helper must obtain the maintenance lock and check for active module tasks;
+do not bypass a refusal. `panasms-configure` preserves the configured port.
+If the panel reports that recovery is required, open **Settings → System updates →
+Restore previous version** to finish restoring the saved packages, settings and
+databases. Then retry the corrected update through the panel. A successful manual
+package repair alone does not establish that automatic rollback passed.
+
 Ubuntu 24.04 AMD64 requires PaNasMs 0.2.13 or newer. A cloud image may have only SSH-key authentication: set a password for your existing sudo user with `sudo passwd "$USER"` before signing in to the panel. SSH password authentication can remain disabled. The installer waits up to 60 seconds for the HTTP listener after starting services.
 
 Clean-install acceptance (2026-10-02): the published testing command completed on Debian 13 and Ubuntu 24.04 LTS AMD64 VMs in Proxmox. Linux administrator authentication, core APIs, package dependencies, database integrity and restart were checked. Hardware and optional-module acceptance remain separate.

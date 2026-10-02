@@ -744,7 +744,10 @@ explanation of a blocking service.
 icon, name, installed/available version, explicit installation state and actions.
 Use a labeled state such as Installed instead of an unexplained dot; retain the
 All/Installed filtering model. Opening a card leads to details with the same
-actions. Show missing dependencies, required access and compatibility before
+actions. Keep the short description in the list and show the detailed description
+as readable paragraphs on the details page, falling back to the short description
+for older modules. Each text field falls back independently to English.
+Show missing dependencies, required access and compatibility before
 installation when they affect the decision. Progress belongs to common tasks.
 Uninstall explains whether configuration or user data will be retained. Core and
 external modules use the same settings, notifications, translations and error UX.

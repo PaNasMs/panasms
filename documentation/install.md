@@ -71,7 +71,14 @@ Installation is complete only after the panel health check succeeds. Packages an
 configuration may remain if APT or startup fails; the installer reports failure
 rather than claiming an automatic rollback of a fresh OS installation.
 
-For removal, preview the plan with `sudo panasms-uninstall --plan`.
+For removal, preview the plan with `sudo panasms-uninstall --plan`, then run
+`sudo panasms-uninstall --remove` (keeps panel configuration and databases for a
+later reinstall) or `--purge` (also removes them, the module registry and the
+service account). Both stop and disable the panel and module services, unpublish
+the shared folders the panel created (files remain) and keep Linux users, RAID,
+filesystems, mounts and Docker data. The storage and sharing tools installed as
+dependencies (mdadm, Samba, NFS, SMART and filesystem utilities) are marked as
+manually installed so that `apt autoremove` does not remove them.
 
 ### Recovering a failed package configuration
 

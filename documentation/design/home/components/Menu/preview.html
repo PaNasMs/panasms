@@ -1,0 +1,16 @@
+<!-- @dsCard group="Overlays" height=300 subtitle="Dropdown menu and tooltip" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+body { padding: 24px; }
+</style>
+</head>
+<body>
+<div class="ds-row" style="align-items:flex-start;gap:32px">
+<div class="menu" role="menu" aria-label="Array actions"><button type="button" role="menuitem"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6zM9 12l2 2 4-4"/></svg>Check array</button><button type="button" role="menuitem" class="is-hover"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6.400 6.400"/></svg>Change RAID level</button><button type="button" role="menuitem" disabled><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Add spare disk</button><hr><button type="button" role="menuitem" class="danger"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12"/></svg>Delete array</button></div>
+<div class="ds-stack" style="align-items:flex-start"><button class="button icon-only" type="button" aria-label="Refresh disk list"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.700M20 4v5h-5"/></svg></button><span class="tooltip" role="tooltip">Refresh disk list</span></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!-- @dsCard group="Objects" height=330 subtitle="A disk, an interface, a share: normal, hover, selected, attention, failed" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+body { padding: 24px; }
+</style>
+</head>
+<body>
+<div class="card"><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px">
+<button class="object-card" type="button" aria-pressed="false"><span class="top"><span class="tag" style="background:var(--panel-solid)">SATA</span><span class="tag ok">Healthy</span></span><span class="name">WDC WD10JFCX</span><span class="big"><span>931.5 GiB</span><span>35 °C</span></span><span class="muted small">/dev/sda · SMART passed</span></button>
+<button class="object-card" type="button" aria-pressed="true"><span class="top"><span class="tag" style="background:var(--panel-solid)">SATA</span><span class="tag ok">Healthy</span></span><span class="name">WDC WD10JFCX</span><span class="big"><span>931.5 GiB</span><span>36 °C</span></span><span class="muted small">/dev/sdc · selected</span></button>
+<button class="object-card warn" type="button" aria-pressed="false"><span class="top"><span class="tag" style="background:var(--panel-solid)">SATA</span><span class="tag warn">Warm</span></span><span class="name">WDC WD10JFCX</span><span class="big"><span>931.5 GiB</span><span>47 °C</span></span><span class="muted small">/dev/sdb · SMART passed</span></button>
+<button class="object-card danger" type="button" aria-pressed="false"><span class="top"><span class="tag" style="background:var(--panel-solid)">SATA</span><span class="tag danger">Failed</span></span><span class="name">WDC WD10JFCX</span><span class="big"><span>931.5 GiB</span><span>—</span></span><span class="muted small">/dev/sdd · SMART failed</span></button>
+</div></div>
+</body>
+</html>

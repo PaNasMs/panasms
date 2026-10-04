@@ -1,0 +1,17 @@
+<!-- @dsCard group="Navigation" height=470 subtitle="The one way to move between parts of a section: rail, objects, phone switcher" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+body { padding: 24px; }
+</style>
+</head>
+<body>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;align-items:start">
+<div class="ds-stack"><span class="ds-cap">Parts of a section</span><nav class="section-nav" aria-label="Settings sections"><a href="#"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.400l2.1-2.1M16.3 7.700l2.1-2.1"/></svg><span class="label">General</span></a><a href="#" class="is-hover"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 4.5-6 8-6s6.500 2 8 6"/></svg><span class="label">Users</span></a><a href="#" aria-current="page"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></svg><span class="label">Disk subsystem</span></a><a href="#"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 17v-6a6 6 0 0 1 12 0v6l2 2H4zM10 21h4"/></svg><span class="label">Notifications</span></a><a href="#"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.700M20 4v5h-5"/></svg><span class="label">System updates</span><span class="dot busy" aria-label="Update available"></span></a><hr><div class="group">Modules</div><a href="#"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg><span class="label">Containers and applications</span></a></nav></div>
+<div class="ds-stack"><span class="ds-cap">Objects</span><nav class="section-nav objects" aria-label="Sync tasks"><div class="group">Sync tasks</div><a href="#" aria-current="page"><span class="dot ok"></span><span class="label">Documents<span class="sub">Up to date</span></span></a><a href="#"><span class="dot busy"></span><span class="label">Photos<span class="sub">Synchronizing…</span></span></a><a href="#"><span class="dot"></span><span class="label">Dropbox test<span class="sub">Paused</span></span></a><button class="button" type="button" style="margin-top:4px"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Add sync task</button></nav></div>
+<div class="ds-stack"><span class="ds-cap">Phone and tablet</span><button class="section-switcher" type="button" aria-haspopup="dialog"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></svg><span class="label">Disk subsystem</span><span class="pos">3 of 7</span><span class="chev"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px"><path d="M6 9l6 6 6-6"/></svg></span></button><span class="muted small">Opens a bottom sheet with the same list.</span></div>
+</div>
+</body>
+</html>

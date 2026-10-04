@@ -1,0 +1,16 @@
+<!-- @dsCard group="Data" height=230 subtitle="Selection bar and the timed confirmation of network changes" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+body { padding: 24px; }
+</style>
+</head>
+<body>
+<div class="ds-stack">
+<div class="selection-bar" role="toolbar" aria-label="Actions for selected disks"><span class="label">2 disks selected</span><button class="button" type="button">Create array</button><button class="button" type="button">Add spare disk</button><button class="button icon-only" type="button" aria-label="Clear selection"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+<div class="confirm-bar" role="status"><div class="label"><strong>eth0: confirm within 96 seconds</strong>Without confirmation the previous settings are restored automatically.</div><button class="button primary" type="button">Connection works — keep settings</button><button class="button" type="button" style="background:var(--panel-solid)">Restore previous settings</button></div>
+</div>
+</body>
+</html>

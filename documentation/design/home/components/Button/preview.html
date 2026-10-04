@@ -1,0 +1,18 @@
+<!-- @dsCard group="Actions" height=300 subtitle="Default, primary, danger, quiet, icon; hover, focus, pressed, disabled, busy" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+body { padding: 24px; }
+</style>
+</head>
+<body>
+<div class="card ds-stack">
+<div class="ds-row"><button class="button" type="button">Cancel</button><button class="button primary" type="button">Apply</button><button class="button danger" type="button">Delete array</button><button class="button quiet" type="button">Remove task</button><button class="button icon-only" type="button" aria-label="Refresh disk list"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.700M20 4v5h-5"/></svg></button><button class="button" type="button"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Add sync task</button></div>
+<div class="ds-row"><span class="ds-cap" style="width:72px">Hover</span><button class="button is-hover" type="button">Cancel</button><button class="button primary is-hover" type="button">Apply</button><button class="button danger is-hover" type="button">Delete array</button></div>
+<div class="ds-row"><span class="ds-cap" style="width:72px">Focus</span><button class="button is-focus" type="button">Cancel</button><button class="button primary is-focus" type="button">Apply</button><span class="ds-cap" style="width:72px;margin-left:16px">Pressed</span><button class="button is-active" type="button">Cancel</button><button class="button primary is-active" type="button">Apply</button></div>
+<div class="ds-row"><span class="ds-cap" style="width:72px">Disabled</span><button class="button" type="button" disabled>Cancel</button><button class="button primary" type="button" disabled>Apply</button><span class="ds-cap" style="width:72px;margin-left:16px">Busy</span><button class="button" type="button" aria-busy="true" aria-label="Checking">Check array</button><button class="button primary" type="button" aria-busy="true" aria-label="Applying">Apply</button></div>
+</div>
+</body>
+</html>

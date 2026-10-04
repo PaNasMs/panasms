@@ -1,0 +1,16 @@
+<!-- @dsCard group="Overlays" height=560 subtitle="Confirmation, and the operation flow: parameters, plan, confirm" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+body { padding: 24px; }
+</style>
+</head>
+<body>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;align-items:start">
+<section class="dialog" role="dialog" aria-label="Remove task"><div class="dialog-head"><h2>Remove the task Documents?</h2></div><div>Your local and cloud files will be preserved. Synchronization between them stops.</div><div class="dialog-foot"><button class="button" type="button">Cancel</button><button class="button danger" type="button">Remove task</button></div></section>
+<section class="dialog form" role="dialog" aria-label="Change RAID level"><div class="dialog-head"><h2>Change RAID level</h2><button class="button icon-only" type="button" aria-label="Close"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="steps"><span class="step" data-n="1">Parameters</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg><span class="step" data-n="2" aria-current="step">Plan</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg><span class="step" data-n="3">Confirm</span></div><ul class="plan"><li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><div>Array <b>disk</b> will be converted from RAID5 to RAID6.</div></li><li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div>The array stays available. Reshaping takes several hours.</div></li><li><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4l9 16H3zM12 10v4M12 17h.01"/></svg><div>Usable capacity changes from 2.7 TiB to 1.8 TiB.</div></li></ul><div class="dialog-foot"><button class="button" type="button">Back</button><button class="button primary" type="button">Continue</button></div></section>
+</div>
+</body>
+</html>

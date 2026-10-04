@@ -1,0 +1,17 @@
+<!-- @dsCard group="Forms" height=330 subtitle="Chosen items as chips, options as a checklist" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+body { padding: 24px; }
+</style>
+</head>
+<body>
+<div class="card" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;align-items:start">
+<div class="field">Users and groups with access<div class="multi is-focus"><span class="chip">pasha<button type="button" aria-label="Remove pasha"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></span><span class="chip">family<button type="button" aria-label="Remove family"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></span></div><span class="hint">Choose one or more.</span></div>
+<div class="menu" role="listbox" aria-label="Users and groups" style="min-width:0"><label class="check" style="padding:0 12px"><input type="checkbox" id="m1" checked>pasha</label><label class="check" style="padding:0 12px"><input type="checkbox" id="m2">olena</label><label class="check" style="padding:0 12px"><input type="checkbox" id="m3" checked>family · group</label></div>
+<div class="field">Protocols<div class="multi"><span class="placeholder">Nothing selected</span></div></div>
+</div>
+</body>
+</html>

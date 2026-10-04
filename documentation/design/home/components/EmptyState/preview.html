@@ -1,0 +1,17 @@
+<!-- @dsCard group="Data" height=480 subtitle="Nothing yet, nothing found, and waiting" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+body { padding: 24px; }
+</style>
+</head>
+<body>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px">
+<div class="empty"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 18a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1.5A4.5 4.5 0 0 1 17 18z"/></svg><h3>Connect your cloud storage</h3><p>Add an account and choose a folder pair for each task.</p><button class="button primary" type="button">Add connection</button></div>
+<div class="empty"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l3-8h10l3 8v6H4zM4 13h5l1 3h4l1-3h5"/></svg><h3>No sync events yet</h3><p>Events appear here after the first synchronization.</p></div>
+<div class="card waiting" style="min-height:180px"><div class="ds-stack"><b>Disk sleep</b><span class="muted">A shared idle timeout for all non-system SATA HDDs.</span></div><div class="waiting-veil"><div class="ds-stack" style="align-items:center"><span class="spinner" role="status" aria-label="Applying"></span>Applying…</div></div></div>
+</div>
+</body>
+</html>

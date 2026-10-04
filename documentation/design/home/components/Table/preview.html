@@ -1,0 +1,17 @@
+<!-- @dsCard group="Data" height=330 subtitle="Dense read-mostly lists: services, routes, logs; hover, selected, row actions" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+body { padding: 24px; }
+</style>
+</head>
+<body>
+<div class="table-wrap"><table class="table"><thead><tr><th>Service</th><th>State</th><th class="num">Memory</th><th><span class="small" style="position:absolute;left:-9999px">Actions</span></th></tr></thead><tbody>
+<tr><td><b>smbd</b><div class="muted small">Samba file sharing</div></td><td><span class="tag ok">Running</span></td><td class="num">38 MiB</td><td><div class="row-actions"><button class="button" type="button">Restart</button><button class="button icon-only" type="button" aria-label="More actions for smbd"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6h.01M12 12h.01M12 18h.01"/></svg></button></div></td></tr>
+<tr class="is-hover"><td><b>nfs-server</b><div class="muted small">NFS exports</div></td><td><span class="tag">Stopped</span></td><td class="num">—</td><td><div class="row-actions"><button class="button" type="button">Start</button><button class="button icon-only" type="button" aria-label="More actions for nfs-server"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6h.01M12 12h.01M12 18h.01"/></svg></button></div></td></tr>
+<tr aria-selected="true"><td><b>docker</b><div class="muted small">Container engine</div></td><td><span class="tag danger">Failed</span></td><td class="num">—</td><td><div class="row-actions"><button class="button" type="button">Open logs</button><button class="button icon-only" type="button" aria-label="More actions for docker"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6h.01M12 12h.01M12 18h.01"/></svg></button></div></td></tr>
+</tbody></table></div>
+</body>
+</html>

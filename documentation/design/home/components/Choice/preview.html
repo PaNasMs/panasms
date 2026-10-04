@@ -1,0 +1,18 @@
+<!-- @dsCard group="Forms" height=250 subtitle="Checkbox, radio, switch, segmented control" -->
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+body { padding: 24px; }
+</style>
+</head>
+<body>
+<div class="card ds-stack">
+<div class="ds-row"><label class="check"><input type="checkbox" id="c1" checked>Show in taskbar</label><label class="check"><input type="checkbox" id="c2">Show on desktop</label><label class="check"><input type="checkbox" id="c3" disabled>Use only the specified DNS servers</label></div>
+<div class="ds-row"><label class="check"><input type="radio" name="r" id="r1" checked>Two-way</label><label class="check"><input type="radio" name="r" id="r2">Cloud → NAS</label><label class="check"><input type="radio" name="r" id="r3">NAS → cloud</label></div>
+<div class="ds-row"><label class="check"><input class="switch" type="checkbox" role="switch" id="s1" checked>Wi-Fi</label><label class="check"><input class="switch" type="checkbox" role="switch" id="s2">Automatic updates</label><label class="check"><input class="switch" type="checkbox" role="switch" id="s3" disabled>SMB access</label></div>
+<div class="ds-row"><div class="segmented" role="radiogroup" aria-label="Disk cooling profile"><button type="button" role="radio" aria-checked="false">Quiet</button><button type="button" role="radio" aria-checked="true">Balanced</button><button type="button" role="radio" aria-checked="false">Performance</button></div><span class="muted small">Segmented: two to four short options of one setting.</span></div>
+</div>
+</body>
+</html>

@@ -1240,7 +1240,8 @@ operation state and the result of each applicable check. **Not tested** is not P
 
 ## 13. Accepted redesign direction (pending implementation)
 
-**Status:** owner decisions of 2026-10-04 about the future look of PaNasMs. They
+**Status:** owner decisions of 2026-10-04 about the future look of PaNasMs, being
+implemented on the `claude/home-redesign` branches. Until those branches are merged they
 are **not in force yet**. Sections 1–12 remain the standard for current code and
 reviews until a migration change replaces the listed rules. Do not restyle
 individual screens toward this direction piecemeal: the migration starts in the

@@ -1238,23 +1238,17 @@ operation state and the result of each applicable check. **Not tested** is not P
 - [ ] SMART tabs, folder-picker return, network countdown and three-way file removal validated.
 - [ ] New shared behavior verified in both core and installed modules; no custom modal fork.
 
-## 13. Accepted redesign direction (pending implementation)
+## 13. Home interface standard (effective 2026-10-04)
 
-**Status:** owner decisions of 2026-10-04 about the future look of PaNasMs, being
-implemented on the `claude/home-redesign` branches. Until those branches are merged they
-are **not in force yet**. Sections 1–12 remain the standard for current code and
-reviews until a migration change replaces the listed rules. Do not restyle
-individual screens toward this direction piecemeal: the migration starts in the
-shared layer (tokens, shell, shared components) and is planned separately.
-
-The reason for the redesign: the current look reads as a draft, components are
-visually inconsistent with one another, and the interface is not usable on a
-phone. The target is that every page, including storage and network settings,
-can be used comfortably on a phone.
+**Status:** accepted and implemented in the core and all four modules. The Home
+interface is the default. RD-01–RD-09 below supersede the explicitly listed
+legacy rules in sections 1–12; all other accessibility, safety, localization
+and interaction requirements remain in force. New interfaces must reuse the
+Home tokens and shared components rather than reintroduce the old design.
 
 ### Decisions
 
-| ID | Decision | Rules it will replace or amend |
+| ID | Decision | Rules superseded or amended |
 | --- | --- | --- |
 | RD-01 | **Visual direction "Home".** Large soft panels, pill-shaped controls, one warm accent, Manrope typeface. A closed scale: eight text styles, six spacing steps, four radii (12px, 18px, 24px, pill), three shadows used only for floating surfaces. | VIS-01, VIS-02, VIS-03, elevation part of VIS-06 |
 | RD-02 | **One section navigation.** Moving between the parts of a section uses a single component everywhere: a list on the left from 1024px, and below that a switcher button that opens a bottom sheet with the same items. It replaces top tabs and the settings list alike, and also lists objects (sync tasks, terminal sessions). One navigation level per page: no tabs nested in a part; use cards, a disclosure group or a separate detail page with Back. | Tab part of VIS-06, FORM-07, the page-anatomy table, MOD-09 where it prescribes tabs |
@@ -1271,10 +1265,10 @@ can be used comfortably on a phone.
 The target tokens, component guidelines and screen mockups are kept in the
 owner's private design workspace ("PaNasMs Home Design System" and the
 "PaNasMs visual directions" canvas). They are design references, not shipped
-code. When the migration lands, the token values and component rules move into
-sections 3–10 of this guide and this section is removed.
+code. The shipped token values are defined in `frontend/src/home/tokens.css`;
+this section records the normative changes to the original standard.
 
-### Implementation notes (branches `claude/home-redesign`)
+### Shared implementation
 
 - Tokens: `frontend/src/home/tokens.css`; the look of the shell and shared
   components: `frontend/src/home/components.css`. The theme is two attributes on
@@ -1294,7 +1288,7 @@ sections 3–10 of this guide and this section is removed.
 - Below 640px a dialog is a bottom sheet across the full width; this replaces
   the 16px outer clearance of MOD-04 for that band only.
 
-### Open before migration
+### Remaining acceptance checks
 
 - The four theme backgrounds are CSS gradients; replace them with drawn artwork if wanted.
 - Contrast of secondary text on translucent panels over real photographs has not

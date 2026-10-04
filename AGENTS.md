@@ -29,3 +29,14 @@
   Other local `docs/` contents are private plans, research and working records;
   never add the directory wholesale or publish its nested Git repository.
 - Keep session notes and implementation/deployment history outside `AGENTS.md`.
+
+## Delivery workflow
+
+- After completing requested code changes, commit and push the affected public
+  repositories to GitHub, wait for successful builds/publication, and install the
+  freshly built version on the physical NAS by default. This is standing owner
+  authorization (2026-10-04); do not ask again for routine updates.
+- Verify build provenance, installed versions, service health and the changed
+  behavior. Report build/deployment failures and untested cases honestly.
+- Respect explicit requests to discuss only, defer deployment or pause work.
+  Preserve unrelated changes and never publish private documentation or secrets.

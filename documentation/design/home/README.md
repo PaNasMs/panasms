@@ -49,7 +49,7 @@ A household appliance, not an admin console. Large soft panels, pill-shaped cont
 
 Line icons on a 24px grid, 2px stroke, round caps, drawn with `currentColor` (class `icon`, 20px by default). The previews use hand-drawn stand-ins.
 
-Recommendation for the product: keep the `@mdi/js` package it already ships, and use only the `Outline` variants (`mdiFolderOutline`, `mdiBellOutline`, …) so no new dependency is needed. Where an outline variant does not exist, the plain icon is acceptable at 20px. This is a recommendation, not yet accepted by the owner.
+The product keeps the `@mdi/js` package. Solid-shape icons use their outline variants (`mdiLockOutline`, `mdiPencilOutline`, `mdiUsbFlashDriveOutline`, …); line glyphs such as check, close, plus, download and upload, and the media controls, stay as they are.
 
 ## Translation
 
@@ -63,6 +63,5 @@ Checked with the real Russian strings (see the canvas boards "Settings in Russia
 
 - Final artwork for the four theme backgrounds (the current ones are gradients). Owner decision.
 - Contrast of `mute` text on translucent panels over real photographs has not been measured.
-- Icon set: recommendation above awaits the owner.
 - Ukrainian strings were not laid out; they are close to Russian in length.
 - Not drawn: Files on a phone with a selection, container detail page, user wizard, Wi-Fi network list.

@@ -1280,21 +1280,23 @@ sections 3–10 of this guide and this section is removed.
   components: `frontend/src/home/components.css`. The theme is two attributes on
   the root element: `data-theme` (light, dark) and `data-surface` (solid, glass).
 - RD-02 is the shared `SectionNav` component (`@panasms/ui`), with `Disclosure`
-  for rarely used groups. Exception RD-02/TERM: the Terminal keeps a strip of
-  closable session tabs above the terminal, because sessions are documents that
-  open and close and the terminal needs the full width. Owner review pending.
+  for rarely used groups. Every section uses it, including Terminal sessions
+  and Cloud Sync tasks; there are no exceptions.
 - A view switch inside a dialog (SMART attributes and results) uses the
   segmented control; it is not section navigation.
 - RD-04 stores the phone taskbar in `preferences.taskbarMobile` (at most three).
-- RD-08 and the icon-only save buttons of existing forms are not migrated yet.
+- RD-08: Yes/No is gone from the eject, end-session, file-operation and Cloud Sync
+  removal dialogs. Save actions in Profile and desktop editing carry their text.
+- RD-09: page-level icon buttons show their tooltip text as a label; below 640px
+  the actions of disk, array, network, module and container cards do the same.
+- Icons: the product keeps `@mdi/js`; solid-shape icons use their outline variants.
+  Line glyphs (check, close, plus, download, upload) and media controls stay as they are.
 - Below 640px a dialog is a bottom sheet across the full width; this replaces
   the 16px outer clearance of MOD-04 for that band only.
 
 ### Open before migration
 
-- Final artwork for the four theme backgrounds.
-- Icon set: proposal is to keep `@mdi/js` and use its outline variants.
+- The four theme backgrounds are CSS gradients; replace them with drawn artwork if wanted.
 - Contrast of secondary text on translucent panels over real photographs has not
   been measured; the opaque fallback required by VIS-04 remains mandatory.
-- Ukrainian layouts have not been checked; Russian strings were checked on the
-  settings page.
+- Ukrainian layouts and tablet widths have not been checked.

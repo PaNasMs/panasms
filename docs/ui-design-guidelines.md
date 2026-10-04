@@ -72,6 +72,7 @@ product decisions. Compliance and implementation progress are assessed separatel
 10. [Modal dialogs](#10-modal-dialogs)
 11. [Research basis and deliberate adaptations](#11-research-basis-and-deliberate-adaptations)
 12. [Review and acceptance](#12-review-and-acceptance)
+13. [Accepted redesign direction (pending implementation)](#13-accepted-redesign-direction-pending-implementation)
 
 ## 1. Product principles
 
@@ -1236,3 +1237,47 @@ operation state and the result of each applicable check. **Not tested** is not P
 - [ ] Destructive target/consequence visible; no typed confirmation or repeated approval.
 - [ ] SMART tabs, folder-picker return, network countdown and three-way file removal validated.
 - [ ] New shared behavior verified in both core and installed modules; no custom modal fork.
+
+## 13. Accepted redesign direction (pending implementation)
+
+**Status:** owner decisions of 2026-10-04 about the future look of PaNasMs. They
+are **not in force yet**. Sections 1–12 remain the standard for current code and
+reviews until a migration change replaces the listed rules. Do not restyle
+individual screens toward this direction piecemeal: the migration starts in the
+shared layer (tokens, shell, shared components) and is planned separately.
+
+The reason for the redesign: the current look reads as a draft, components are
+visually inconsistent with one another, and the interface is not usable on a
+phone. The target is that every page, including storage and network settings,
+can be used comfortably on a phone.
+
+### Decisions
+
+| ID | Decision | Rules it will replace or amend |
+| --- | --- | --- |
+| RD-01 | **Visual direction "Home".** Large soft panels, pill-shaped controls, one warm accent, Manrope typeface. A closed scale: eight text styles, six spacing steps, four radii (12px, 18px, 24px, pill), three shadows used only for floating surfaces. | VIS-01, VIS-02, VIS-03, elevation part of VIS-06 |
+| RD-02 | **One section navigation.** Moving between the parts of a section uses a single component everywhere: a list on the left from 1024px, and below that a switcher button that opens a bottom sheet with the same items. It replaces top tabs and the settings list alike, and also lists objects (sync tasks, terminal sessions). One navigation level per page: no tabs nested in a part; use cards, a disclosure group or a separate detail page with Back. | Tab part of VIS-06, FORM-07, the page-anatomy table, MOD-09 where it prescribes tabs |
+| RD-03 | **The launcher is "Sections".** The list of all sections is not called "Applications"; that word is reserved for a later, different concept. | NAV-01 wording |
+| RD-04 | **Taskbar on a phone.** Below 640px the taskbar moves to the bottom: Sections, Desktop, up to three pinned sections, Tasks with a counter. Running modules and background tasks collapse into that counter plus one progress row. Notifications and Profile move to the page header. Pinned sections are stored separately for computer and phone. | NAV-01 |
+| RD-05 | **Desktop layouts per device.** Widget layout and desktop settings are separate for computer and phone. Desktop shortcuts show the icon without a backing plate. A new Array widget shows an array's state and the temperature of each member disk. | Desktop rules in section 7 |
+| RD-06 | **Four themes.** Light, Dark, Light translucent, Dark translucent. Every theme ships its own background; a picture uploaded by the user replaces it. In translucent themes panels let the background through. Dialogs, sheets, menus, tooltips, toasts and form fields stay opaque in every theme. | VIS-03, VIS-04 |
+| RD-07 | **Nothing on the bare background.** Text and controls never sit directly on the background or wallpaper. The page title and page actions live in a page-header panel; group headings live inside cards. | VIS-04, page anatomy |
+| RD-08 | **One confirmation model.** Reversible action: Cancel plus a verb. Destructive action: Cancel plus a danger button repeating verb and object. System operation: parameters, plan, confirm. No "Yes / No" or "OK". | MOD-06 (amends; typed confirmation stays rejected) |
+| RD-09 | **Phone behaviour of dense components.** A table becomes a list of cards below 640px. Icon-only actions get labels or move into a labelled menu. A segmented control whose options do not fit on one line becomes a select. | CMP-01, VIS-05 |
+
+### References
+
+The target tokens, component guidelines and screen mockups are kept in the
+owner's private design workspace ("PaNasMs Home Design System" and the
+"PaNasMs visual directions" canvas). They are design references, not shipped
+code. When the migration lands, the token values and component rules move into
+sections 3–10 of this guide and this section is removed.
+
+### Open before migration
+
+- Final artwork for the four theme backgrounds.
+- Icon set: proposal is to keep `@mdi/js` and use its outline variants.
+- Contrast of secondary text on translucent panels over real photographs has not
+  been measured; the opaque fallback required by VIS-04 remains mandatory.
+- Ukrainian layouts have not been checked; Russian strings were checked on the
+  settings page.

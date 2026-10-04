@@ -26,6 +26,14 @@ Core and active module services stop for a consistent backup. Previous core pack
 
 Manual rollback restores PaNasMs settings/database state to the backup point; later settings changes are lost. It is refused if modules have changed since the snapshot or the snapshot does not correspond to the current version. This is not an atomic rollback of the entire operating system. Newly installed distribution dependencies may remain. No automatic reboot occurs.
 
+After an interrupted installation, boot recovery requeues the saved panel and
+module services after restoring the package and databases. These starts are
+nonblocking because the panel is ordered after the recovery unit. After boot,
+verify that the panel is reachable and check the update history; a restored
+package alone does not prove that every service is healthy. A persistent external
+startup failure must be corrected before recovery can finish. The updater retains
+the failed transaction and backup instead of claiming a successful update.
+
 System update progress appears in Tasks and the application bar. Available releases and outcomes appear in notifications. Logs are available in the system journal for `panasms-update.service`; the history remains available after the web interface restarts.
 
 ## Removal

@@ -1274,6 +1274,22 @@ owner's private design workspace ("PaNasMs Home Design System" and the
 code. When the migration lands, the token values and component rules move into
 sections 3–10 of this guide and this section is removed.
 
+### Implementation notes (branches `claude/home-redesign`)
+
+- Tokens: `frontend/src/home/tokens.css`; the look of the shell and shared
+  components: `frontend/src/home/components.css`. The theme is two attributes on
+  the root element: `data-theme` (light, dark) and `data-surface` (solid, glass).
+- RD-02 is the shared `SectionNav` component (`@panasms/ui`), with `Disclosure`
+  for rarely used groups. Exception RD-02/TERM: the Terminal keeps a strip of
+  closable session tabs above the terminal, because sessions are documents that
+  open and close and the terminal needs the full width. Owner review pending.
+- A view switch inside a dialog (SMART attributes and results) uses the
+  segmented control; it is not section navigation.
+- RD-04 stores the phone taskbar in `preferences.taskbarMobile` (at most three).
+- RD-08 and the icon-only save buttons of existing forms are not migrated yet.
+- Below 640px a dialog is a bottom sheet across the full width; this replaces
+  the 16px outer clearance of MOD-04 for that band only.
+
 ### Open before migration
 
 - Final artwork for the four theme backgrounds.

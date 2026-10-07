@@ -61,7 +61,8 @@ left list (3 sections), left list of objects (1), and two sections nest top tabs
 - **Storage / partitions**: tree per device; selection bar with actions by type — free space (Create partition /
   file system / encrypted volume), file system (Mount, Unmount, Mount options, Size, Format, btrfs snapshots),
   LUKS (password, key, auto-unlock, header backup/restore, unlock, lock), partition (Size, Delete), Wipe device,
-  network shares (Mount network share, Unmount).
+  network shares (Mount network share, Unmount). System partitions show a protection notice instead of actions;
+  free space on the system drive is editable (see core-lifecycle.md, "System drive protection").
 - **Users**: cards; Create user/group; detail with groups, home folder move, delete, numeric ID, reset password,
   SMB access, SSH keys, sessions, security history.
 - **Shared folders**: share card (Edit in two steps: folder+protocols, access; Linux folder permissions; Stop

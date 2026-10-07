@@ -32,6 +32,10 @@
 
 ## Delivery workflow
 
+- The owner explicitly authorizes creating and merging pull requests in the
+  PaNasMs project repositories without separate confirmation (2026-10-07).
+  These are project repositories, not external upstream repositories.
+
 - After completing requested code changes, commit and push the affected public
   repositories to GitHub, wait for successful builds/publication, and install the
   freshly built version on the physical NAS by default. This is standing owner

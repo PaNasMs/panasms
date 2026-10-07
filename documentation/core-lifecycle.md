@@ -62,6 +62,32 @@ rollback and independent core updates. Storage inspection reports the actual
 RAID/partition/filesystem state. Formatting, deletion and partially completed RAID
 changes are not generically reversible; automatically rerunning them is unsafe.
 
+## System drive protection
+
+Storage operations refuse to touch the partitions that carry the running system,
+not the whole drive. A partition is a system partition when any of these holds:
+
+- it is mounted at `/`, `/boot` (including `/boot/efi` and `/boot/firmware`),
+  `/efi`, `/usr`, `/var` or `/home`, or below one of them (compared by path
+  component, so `/homework` does not count), or it is active swap;
+- its partition type is EFI system, BIOS boot, extended boot loader (XBOOTLDR)
+  or Linux swap (GPT or MBR), or it holds a swap signature, even when unmounted;
+- `/etc/fstab` assigns it (by path, `UUID=` or `PARTUUID=`) to one of those
+  mount points or to swap, even when it is currently unmounted.
+
+A system partition is refused for every operation: format, resize, delete, wipe,
+encryption, array membership. The drive, array or LUKS container beneath it and
+their members are refused for whole-device operations: wipe, prepare for RAID,
+array creation or growth, eject, format of the whole device. Partition layout
+changes on that drive are allowed: free space can receive a new partition, and
+partitions that are not system partitions can be formatted, resized and deleted.
+The storage options report both reasons separately (`protectedReason` for the
+device, `layoutReason` for its partition layout), and the interface uses the
+layout reason for free-space selections.
+
+Partitions without a standard boot-loader type and without an fstab entry, such
+as vendor recovery images, are not recognised as system partitions.
+
 ## Verification boundary
 
 Automated checks cover fresh/legacy databases, successful and failed migrations,

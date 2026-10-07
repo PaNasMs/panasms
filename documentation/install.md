@@ -16,7 +16,16 @@ free space, verifies the signed release catalog and package, installs dependenci
 (including mdadm, filesystem tools, SMART, Samba and NFS), starts the panel and
 prints its address. Sign in using your existing Linux administrator account.
 It does not format disks, create an administrator or guess your fan wiring.
-Hardware cooling remains unconfigured until you select the correct hardware.
+On Raspberry Pi 5 the installer also installs the independent cooling and SMART
+telemetry package, including its dependencies. No Raspberry Pi OS repository is
+added to Armbian. CPU profiles and disk temperature monitoring are available;
+disk-bay GPIO control stays disabled until you select the fan type and wiring
+under **Settings → Disk subsystem → Advanced settings**.
+
+Armbian based on Debian 13 is accepted through its Debian base. Network settings
+preserve the existing NetworkManager, Netplan or systemd-networkd provider.
+Other Armbian base releases and board-specific cooling circuits are not implied
+by this compatibility.
 
 The command downloads an administrator-level installer over HTTPS. You can inspect
 it first instead of piping it directly to a shell:

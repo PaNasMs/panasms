@@ -132,3 +132,17 @@ installer. This requires accessible distribution repositories; the artifact is n
 an offline bundle. Installing the optional cooling package is a separate hardware decision.
 
 AMD64 builds use a pinned Ubuntu 24.04 container to keep the native PAM/glibc baseline compatible with both Ubuntu 24.04 and Debian 13. ARM64 builds retain Debian 13. Runtime shared-library version dependencies are derived with `dpkg-shlibdeps`; artifact names retain the historical `panasms-debian13-` prefix. Build manifests identify the actual container and target distributions.
+
+## Merging validated changes
+
+Use `python3 scripts/merge-checked.py PaNasMs/<repository> <PR-number>` from the
+main project checkout. It refuses missing, pending, cancelled, skipped or failed
+checks, draft PRs and unresolved mergeability. The merge is pinned to the checked
+head commit. Never treat an empty failure list as a successful CI run. After a
+runner outage, rerun the complete build so both architecture artifacts share the
+same run attempt before publication.
+
+Module PR workflows intentionally skip the tag-only `release` job. After checking
+the workflow condition, pass `--allow-skipped-check release` for that exact job.
+This exception never allows cancelled, failed or pending jobs and still requires
+successful checks; do not use it for tests or architecture builds.

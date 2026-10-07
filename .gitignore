@@ -27,3 +27,6 @@ __pycache__/
 !/docs/
 /docs/*
 !/docs/ui-design-guidelines.md
+
+!/scripts/merge-checked.py
+!/scripts/test-merge-checked.py

@@ -1,6 +1,7 @@
 import importlib.util
 from pathlib import Path
 import struct
+import subprocess
 import tempfile
 import unittest
 from unittest.mock import patch
@@ -31,11 +32,16 @@ class BuildArtifactTest(unittest.TestCase):
             binary.write_bytes(b"\x7fELF\x02\x01" + bytes(12) + struct.pack("<H", 62))
             with self.assertRaises(ValueError):
                 build.verify_elf(binary, "arm64")
-            with patch.object(build, "output", return_value="libpam.so.0 => not found"):
+            with patch.object(build.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, "libpam.so.0 => not found", "")):
                 with self.assertRaises(ValueError):
                     build.verify_elf(binary, "amd64")
-            with patch.object(build, "output", return_value="libpam.so.0 => /lib/libpam.so.0"):
+            with patch.object(build.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, "libpam.so.0 => /lib/libpam.so.0", "")):
                 build.verify_elf(binary, "amd64")
+            with patch.object(build.subprocess, "run", return_value=subprocess.CompletedProcess([], 1, "", "not a dynamic executable")):
+                build.verify_elf(binary, "amd64")
+            with patch.object(build.subprocess, "run", return_value=subprocess.CompletedProcess([], 1, "", "permission denied")):
+                with self.assertRaises(ValueError):
+                    build.verify_elf(binary, "amd64")
 
 
 if __name__ == "__main__":

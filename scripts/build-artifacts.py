@@ -32,7 +32,10 @@ def verify_elf(path, arch):
     if (len(header) != 20 or header[:6] != b"\x7fELF\x02\x01" or
             struct.unpack("<H", header[18:20])[0] != {"arm64": 183, "amd64": 62}[arch]):
         raise ValueError(f"Wrong binary architecture: {path.name}")
-    if "not found" in output("ldd", str(path)):
+    libraries = subprocess.run(["ldd", str(path)], text=True, capture_output=True)
+    if libraries.returncode and "not a dynamic executable" not in libraries.stderr + libraries.stdout and "statically linked" not in libraries.stdout:
+        raise ValueError(f"Cannot inspect runtime libraries: {path.name}")
+    if "not found" in libraries.stdout:
         raise ValueError(f"Unresolved runtime libraries: {path.name}")
 
 
@@ -57,6 +60,9 @@ def verify_package(package, name, version, arch):
                              "usr/share/doc/panasms-prototype/LICENSE"):
                 if not (root / relative).is_file():
                     raise ValueError(f"Missing package file: {relative}")
+        if name == "panasms-cooling" and arch != "all":
+            for binary in ("panasms-cooling", "pinctrl", "dtoverlay"):
+                verify_elf(root / "usr/lib/panasms-cooling" / binary, arch)
         for source in root.rglob("*.py"):
             compile(source.read_bytes(), str(source), "exec")
 
@@ -97,8 +103,9 @@ def main():
         cooling_version = version
         subprocess.run(["sh", str(backend / "scripts/build-cooling-deb.sh")], check=True,
                        env=dict(environment, PANASMS_COOLING_VERSION=cooling_version))
-        packages.append((backend / f"dist/panasms-cooling_{cooling_version}_all.deb",
-                         "panasms-cooling", cooling_version, "all"))
+        cooling_arch = arch if (backend / f"dist/panasms-cooling_{cooling_version}_{arch}.deb").exists() else "all"
+        packages.append((backend / f"dist/panasms-cooling_{cooling_version}_{cooling_arch}.deb",
+                         "panasms-cooling", cooling_version, cooling_arch))
     for package, name, package_version, package_arch in packages:
         verify_package(package, name, package_version, package_arch)
         shutil.copy2(package, destination)
@@ -108,7 +115,7 @@ def main():
     metadata.update({
         "updatePolicy": policy,
         "product": "PaNasMs", "channel": channel, "version": version, "architecture": arch,
-        "target": "Debian 13 / Ubuntu 24.04 LTS" if arch == "amd64" else "Debian 13 / Raspberry Pi OS based on Debian 13",
+        "target": "Debian 13 / Ubuntu 24.04 LTS" if arch == "amd64" else "Debian 13 / Raspberry Pi OS / Armbian based on Debian 13",
         "run": f"https://github.com/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}",
         "attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]),
         "toolchain": {"go": output("go", "version"), "node": output("node", "--version"),

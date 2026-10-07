@@ -141,3 +141,8 @@ checks, draft PRs and unresolved mergeability. The merge is pinned to the checke
 head commit. Never treat an empty failure list as a successful CI run. After a
 runner outage, rerun the complete build so both architecture artifacts share the
 same run attempt before publication.
+
+Module PR workflows intentionally skip the tag-only `release` job. After checking
+the workflow condition, pass `--allow-skipped-check release` for that exact job.
+This exception never allows cancelled, failed or pending jobs and still requires
+successful checks; do not use it for tests or architecture builds.

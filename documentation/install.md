@@ -3,7 +3,8 @@
 Start with **Debian 13 / Raspberry Pi OS 13 (ARM64 or AMD64), or Ubuntu 24.04 LTS (AMD64)**, a working
 internet connection and an existing Linux user with administrator (`sudo`) rights.
 PaNasMs is an application installed on this OS, not an SD-card image. ARM64 is the
-hardware-tested target; AMD64 packages are experimental.
+hardware-tested target. AMD64 installation and release acceptance were tested
+on Debian 13 and Ubuntu 24.04 virtual machines; this does not certify every PC.
 
 Open a terminal on the NAS (or connect over SSH) and paste:
 

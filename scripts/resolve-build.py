@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import re
 import subprocess
+import urllib.error
 import urllib.parse
 import urllib.request
 
@@ -24,6 +25,25 @@ def resolve(repository, ref):
             "requestedRef": ref, "committedAt": commit["commit"]["committer"]["date"]}
 
 
+def resolve_component(name, lock):
+    """Resolve a component; a pull request may pair it with the same branch of the other component.
+
+    `<NAME>_PAIRED_REF` names a branch that exists only when a change spans backend and frontend
+    (for example a version bump). If the other repository has no such branch, `main` is used.
+    """
+    if lock:
+        return resolve(name, lock["sources"][name])
+    explicit = os.environ.get(name.upper() + "_REF") or "main"
+    paired = os.environ.get(name.upper() + "_PAIRED_REF", "")
+    if explicit == "main" and paired and paired != "main":
+        try:
+            return resolve(name, paired)
+        except urllib.error.HTTPError as error:
+            if error.code not in (404, 422):
+                raise
+    return resolve(name, explicit)
+
+
 def main():
     tag = os.environ.get("VERSION_TAG", "")
     lock = json.loads(Path("release-lock.json").read_text()) if tag else None
@@ -31,8 +51,7 @@ def main():
         raise ValueError("Version tag must match release-lock.json")
     if lock and any(not re.fullmatch(r"[0-9a-f]{40}", lock["sources"][name]) for name in ("backend", "frontend", "files", "terminal")):
         raise ValueError("Release sources must be pinned to full commit SHAs")
-    sources = {name: resolve(name, lock["sources"][name] if lock else os.environ.get(name.upper() + "_REF") or "main")
-               for name in ("backend", "frontend")}
+    sources = {name: resolve_component(name, lock) for name in ("backend", "frontend")}
     for name in ("files", "terminal"):
         sources[name] = resolve("module-" + name, lock["sources"][name] if lock else "main")
         sources[name]["role"] = "test-dependency"

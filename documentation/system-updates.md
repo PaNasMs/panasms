@@ -1,6 +1,6 @@
 # System update lifecycle
 
-PaNasMs publishes native ARM64 and AMD64 Debian packages. Linux distribution updates and hardware cooling are separate from the panel update transaction.
+PaNasMs publishes native ARM64 and AMD64 Debian packages. Linux distribution updates are separate from the panel update transaction. ARM64 releases also carry the optional `panasms-cooling` package, which the updater upgrades together with the core only where it is already installed; it never installs cooling.
 
 ## Channels and releases
 
@@ -24,7 +24,7 @@ State lives in `/var/lib/panasms-updates`; preferences in `/etc/panasms/updates.
 
 Open terminal sessions do not block panel updates or rollback. After downloads and initial checks, the updater stops the terminal service and its entire process group, ending all terminal commands. It then obtains the exclusive maintenance lock; other active work still blocks installation. The terminal service returns after a successful update or rollback, but closed sessions and commands are not resumed. A failure before package changes also restarts previously running services.
 
-Core and active module services stop for a consistent backup. Previous core packages are captured with dpkg-repack; PaNasMs configuration and databases are saved. User data, RAID, mounts, Linux accounts, network connections and independent cooling are not changed by rollback. The worker installs with APT, restarts services, checks HTTP/UI assets and SQLite integrity, and verifies the installed package version. Failure after mutation restores previous packages and saved data. A boot recovery unit restores interrupted installations before core startup. If recovery itself fails, the state remains actionable and further mutations are blocked until recovery.
+Core and active module services stop for a consistent backup. Cooling keeps running; only its own package scripts restart it during the package change. Previous versions of every installed PaNasMs package, including cooling, are captured with dpkg-repack; PaNasMs configuration and databases are saved. User data, RAID, mounts, Linux accounts, network connections and the cooling configuration in `/etc/panasms-cooling` are not changed by rollback. The worker installs with APT, restarts services, checks HTTP/UI assets and SQLite integrity, verifies that every updated package has the release version, and requires a previously active cooling service to be active again. Failure after mutation restores previous packages and saved data. A boot recovery unit restores interrupted installations before core startup. If recovery itself fails, the state remains actionable and further mutations are blocked until recovery.
 
 Manual rollback restores PaNasMs settings/database state to the backup point; later settings changes are lost. It is refused if modules have changed since the snapshot or the snapshot does not correspond to the current version. This is not an atomic rollback of the entire operating system. Newly installed distribution dependencies may remain. No automatic reboot occurs.
 

@@ -37,9 +37,16 @@ The core base version is `backend/VERSION`, and it must match frontend
 `package.json`. Testing builds append `~dev.<UTC timestamp>.<run ID>.<attempt>`,
 so repeated builds are distinguishable and sort **below** the corresponding stable
 version. Stable tags use the matching release version and pinned component commits.
-The optional cooling package is built separately and is not part of the
-core updater transaction. The NAS chooses its channel and installation policy;
-creating a build alone does not request installation on a device.
+Right after a stable tag, raise the base version in `backend/VERSION` and frontend
+`package.json` to the next patch version. Otherwise every later testing build sorts
+below the stable release, and a NAS that installed it cannot take any testing build.
+Make the change on branches with the same name in both repositories so their pull
+requests build as a pair.
+
+The cooling package is built separately. The updater upgrades it together with the
+core when it is already installed, and never installs it on its own. The NAS chooses
+its channel and installation policy; creating a build alone does not request
+installation on a device.
 
 The manifest records exact workspace/backend/frontend commits, requested refs,
 architecture, build run, compiler/runtime versions, Debian container digest and
@@ -99,6 +106,10 @@ Backend and frontend callers pin both the reusable workflow and its `build_ref`
 to the same workspace commit. When changing the shared pipeline, test its root
 run, then update both caller pins. This prevents a moving build script from being
 combined with a different workflow definition.
+
+Pull requests pass their branch name as `paired_ref`. When the other component has
+a branch with the same name, the build uses it instead of `main`, so a change that
+must land in backend and frontend together is built and checked as one pair.
 
 For local package builds, follow the backend and frontend READMEs. Default
 versions are unchanged unless the CI version environment variables are supplied.

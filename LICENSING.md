@@ -1,56 +1,67 @@
 # PaNasMs licensing
 
-The [PaNasMs Source-Available License 1.0](LICENSE) applies to original material
-expressly released under it. It combines the complete Apache 2.0 text with custom
-PaNasMs conditions inspired by Commons Clause. Part A controls conflicts and is
-not an optional addition. This is not standard Apache 2.0, standard Commons Clause,
-or an OSI-approved open-source license.
+Original material expressly released under these terms uses the unmodified
+[Sustainable Use License, Version 1.0](LICENSE), identified by SPDX as `SUL-1.0`.
+It is a source-available license with use and distribution restrictions, not an
+OSI-approved open-source license. It does not incorporate Apache 2.0 or Commons
+Clause. [NOTICE](NOTICE) preserves attribution and provides an express additional
+permission for paid services on customer-owned equipment.
 
-## What you can do
+## Permitted uses
 
-| Scenario | Result under the license |
-| --- | --- |
-| Install on your own home NAS | Allowed |
-| Use inside a business, including for work documents | Allowed |
-| Modify the software privately | Allowed; no publication requirement |
-| Share a free fork or binary build | Allowed with the full license, attribution and change notices |
-| Charge for independent installation or configuration on customer-owned equipment | Allowed under section 4 |
-| Charge for ongoing support or maintenance on that equipment | Allowed under section 4; use of delivered copies cannot depend on continued payment |
-| Sell or rent the system or a renamed derivative | Prior approval and a separate written agreement required |
-| Include the system in any paid hardware/software product, even as a free component | Prior approval and a separate written agreement required |
-| Sell a NAS with the system preinstalled, or installation included on another invoice | Prior approval and a separate written agreement required |
-| Resell a used NAS with the system installed | Same restriction, subject to rights that applicable law does not allow a license to restrict |
-| Sell a blank NAS; the buyer independently downloads and installs PaNasMs later | Allowed |
-| Sell an independent application that only calls a public PaNasMs API | Not restricted solely by that API use; bundling PaNasMs itself requires an agreement |
+- Personal and noncommercial use, including a home NAS.
+- Internal business use, including storing company and employee files.
+- Private modifications; the license does not require publishing your changes.
+- Free distribution for noncommercial purposes, including modified versions,
+  with the license, preserved notices and a prominent notice of modifications.
+- Paid independent installation, configuration, maintenance, training and support
+  on equipment already owned by the customer, under the permission in NOTICE.
+  The customer's use must remain within LICENSE.
 
-Attribution must retain the original project's name, authorship and URL. An
-accompanying NOTICE file or normal legal/about screen is sufficient; no permanent
-logo or startup banner is required. Attribution does not imply endorsement.
+Keep the original copyright and licensing notices, including the PaNasMs project
+attribution and URL in NOTICE. This does not require a permanent logo or startup
+banner and does not imply endorsement.
+
+## Commercial distribution and products
+
+SUL permits distribution or provision to others only free of charge for
+noncommercial purposes. Selling PaNasMs or a derivative is outside that grant.
+We interpret supplying a NAS with PaNasMs preinstalled as commercial distribution,
+including when the software has no separate price within the hardware sale.
+
+For uses outside the grant, contact the project owner through
+[the PaNasMs repository](https://github.com/PaNasMs/panasms). Such uses require
+separate permission from the relevant rights holders; our commercial licensing
+process requires prior written approval and a separate agreement.
+
+This guide does not add a blanket prohibition on every paid product that uses
+PaNasMs internally. SUL's actual distinction between internal use and distribution
+or provision to others controls. Hosted access and product integration must be
+assessed against that distinction; they are not automatically permitted or
+prohibited merely because a service charges money. The paid-services permission
+does not itself authorize distributing a preinstalled product.
 
 ## Scope and transition
 
-- Third-party components, fonts, icons, separately licensed photos and other assets
-  retain their own terms. See each repository's NOTICE and dependency notices.
-- Hardware/CAD designs are outside this software license.
-- Previously released packages, signatures, catalog entries and tags keep their
-  original terms. The license inside the downloaded package identifies its terms.
-- New source revisions and packages expressly carrying this license use the new
-  terms. No historical grant is revoked or rewritten.
-- No special hosted-service prohibition has been added: assess a service against
-  the actual copying, distribution and sale provisions, not a claim that all
-  hosting is prohibited or automatically permitted.
+Third-party code, dependencies and separately licensed assets keep their own
+terms. Hardware/CAD designs are outside this software license. Consult repository
+NOTICE files for attribution and exceptions.
 
-For a commercial product agreement, contact the project owner through
-[the PaNasMs repository](https://github.com/PaNasMs/panasms). Ordinary business use
-and the permitted services above do not require an agreement.
+Previously released packages, signatures, catalog entries and tags retain their
+original terms, including historical PolyForm and PaNasMs custom-license releases.
+Only new revisions and distributions expressly carrying SUL use these terms.
+No historical grant is revoked, and old signed archives are not rewritten.
 
-## Machine-readable labels
+Module manifests and npm metadata use `SUL-1.0`. Every new distribution includes
+LICENSE and the applicable NOTICE, including the additional service permission.
+The registry also recognizes earlier identifiers to preserve release history.
 
-Module manifests use `LicenseRef-PaNasMs-Source-Available-1.0`, a custom identifier,
-not an SPDX-listed license. npm metadata uses `SEE LICENSE IN LICENSE`. Neither
-should say `Apache-2.0` alone, because that would omit the restrictions. Every new
-distribution includes the complete combined LICENSE and applicable NOTICE.
+## References
 
-This guide is an explanation; LICENSE is the operative text. The terms have been
-checked for consistency with the owner's stated policy, not certified by a lawyer.
-Enforceability, including statutory resale rights, depends on applicable law.
+- [Standard SUL 1.0 text and SPDX identifier](https://spdx.org/licenses/SUL-1.0.html)
+- [n8n's explanation of its license](https://docs.n8n.io/n8n-community-license/community-license/license-faq)
+
+n8n's examples describe n8n's own licensing decisions; they do not grant rights
+to PaNasMs. LICENSE and the explicit permission in our NOTICE govern PaNasMs.
+This guide explains those terms; it is not a legal opinion on every jurisdiction
+or a replacement for the operative documents.

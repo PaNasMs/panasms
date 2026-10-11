@@ -122,14 +122,12 @@ repositories.
 
 ## License
 
-Original PaNasMs material uses the [PaNasMs Source-Available License 1.0](LICENSE).
-Personal and internal business use, free forks and redistribution, and independent
-paid installation/support on customer-owned equipment are permitted. Selling the
-software or including it in any paid hardware or software product requires prior
-written approval and a separate written agreement with the relevant rights holders.
-Distributed copies must preserve attribution and the original project link.
+Original PaNasMs material uses [Sustainable Use License 1.0](LICENSE) (`SUL-1.0`).
+Personal and internal business use and free noncommercial forks are allowed.
+[NOTICE](NOTICE) expressly permits paid installation and support on equipment
+already owned by the customer. Preserve attribution and identify modifications.
 
-This custom license combines Apache 2.0 with PaNasMs-specific restrictions inspired
-by Commons Clause; it is not unmodified Apache 2.0 or OSI-approved open source.
-See [licensing examples](LICENSING.md) and [NOTICE](NOTICE). Third-party components,
-CAD files and previously released copies retain their applicable licenses.
+This is source-available software, not OSI-approved open source. Commercial
+software distribution, including supplying preinstalled NAS products, requires
+separate permission. See [licensing examples](LICENSING.md). Third-party material,
+CAD designs and previously released copies retain their applicable licenses.

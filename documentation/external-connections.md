@@ -84,8 +84,8 @@ the linking dialog offers file access in the same authorization flow. The core
 stores that authorization separately from module permissions. A module installed
 later can receive a local grant without another provider redirect if matching
 permissions are already available. Missing capabilities require new provider
-consent; installation never silently grants access. GitHub repository access is
-not included. New providers remain disabled until configured.
+consent; installation never silently grants access. GitHub repository backups require the separate `github-repositories` grant
+with `repo`. That OAuth permission includes writes, but Cloud Sync only reads. New providers remain disabled until configured.
 
 ## Ownership and authentication
 

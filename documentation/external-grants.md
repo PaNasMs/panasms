@@ -238,3 +238,21 @@ refresh/rotation is centralized per account and scope; modules receive only acce
 tokens through the private broker. Provider revocation invalidates shared credentials,
 while revoking a single module grant leaves the account authorization available for
 explicit grants to other modules. Existing legacy grants migrate without relinking.
+
+## GitHub repository backups
+
+Core 0.2.19 adds the reviewed `github-repositories` capability for `cloud-sync`,
+using the existing GitHub OAuth app with `repo`. This scope includes read/write
+access to private repositories; Cloud Sync only performs read operations and
+never pushes. Existing identity links require explicit additional consent. The
+core verifies the GitHub numeric identity and granted scope before saving tokens.
+
+GitHub OAuth tokens can have no provider expiration. The encrypted account
+authorization retains that fact; the broker returns a five-minute cache lease to
+consumers. Expiring tokens use the normal refresh flow. Browser responses contain
+only grant IDs. Installation identity, consumer policy, owner, epoch and client
+revision checks apply just as for Google Drive and Dropbox.
+
+Cloud Sync 0.1.27 adds one repository per task, all-branch/tag fetching and a
+normal default-branch checkout. See the [module guide](https://github.com/PaNasMs/module-cloud-sync#github-repository-backups)
+for safe-update behavior, retained refs, scope and backup limitations.

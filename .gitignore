@@ -30,3 +30,6 @@ __pycache__/
 
 !/scripts/merge-checked.py
 !/scripts/test-merge-checked.py
+
+!/LICENSING.md
+!/LICENSING-PROPOSAL.md

@@ -1,5 +1,8 @@
-# Licensing proposal adopted
+# Current licensing
 
-The reviewed terms are now in [LICENSE](LICENSE), with examples and transition
-rules in [LICENSING.md](LICENSING.md). This file is retained as a pointer from the
-original proposal; it does not provide a competing license or an additional grant.
+PaNasMs now uses Sustainable Use License 1.0. The operative documents are
+[LICENSE](LICENSE) and the additional service permission in [NOTICE](NOTICE).
+See [LICENSING.md](LICENSING.md) for examples and transition rules.
+
+This file remains a pointer for earlier proposal links. It does not preserve
+superseded proposal terms as conditions on new SUL-licensed revisions.

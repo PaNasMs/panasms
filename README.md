@@ -90,6 +90,7 @@ git clone git@github.com:PaNasMs/module-files.git modules/files
 git clone git@github.com:PaNasMs/module-terminal.git modules/terminal
 git clone git@github.com:PaNasMs/module-cloud-sync.git modules/cloud-sync
 git clone git@github.com:PaNasMs/module-containers.git modules/containers
+git clone git@github.com:PaNasMs/module-file-drop.git modules/file-drop
 ```
 
 Each component README lists its build and test commands. CI builds native ARM64 and

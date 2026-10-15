@@ -1,8 +1,8 @@
 {
-  "version": "0.2.23",
+  "version": "0.2.27",
   "sources": {
-    "backend": "7722ca1a00200ec5c6dfbafbb4a8f95ff8bb6fdd",
-    "frontend": "5a6634b4986bcd97428756450230f18cb33ce5e9",
+    "backend": "a97179622cfbceb47033bb5f8dae7fc452ad61ad",
+    "frontend": "a2c218282862640b2af84dbc4194fd6dc5c65d7d",
     "files": "42a19e6556256b2b38d0d02b1619ff6264830ac1",
     "terminal": "138f778d92851b7c21cc881a1b32d111692806f4"
   }

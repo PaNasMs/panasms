@@ -32,6 +32,15 @@
 
 ## Delivery workflow
 
+- Make all changes to PaNasMs project repositories through feature branches and
+  pull requests, including code, documentation and configuration. Do not push
+  changes directly to the default branch unless the user explicitly requests it.
+- Before merging, run the available automatic reviews (including CodeRabbit and
+  Sourcery where installed), wait for them to finish on the latest PR revision,
+  and address actionable findings. Explain any dismissed findings in the PR.
+  Re-run reviews after relevant fixes and require successful applicable CI checks.
+  If automatic review is unavailable or does not support the change, record that
+  limitation in the PR and report it; do not present a skipped review as passed.
 - The owner explicitly authorizes creating and merging pull requests in the
   PaNasMs project repositories without separate confirmation (2026-10-07).
   These are project repositories, not external upstream repositories.
